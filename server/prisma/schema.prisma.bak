@@ -1,0 +1,216 @@
+// =====================================================================
+// Prisma Schema — Visitor Management System for Facilities
+// Mirrors database_design.md exactly (7 tables, same PK/FK/constraints)
+// =====================================================================
+
+generator client {
+  provider      = "prisma-client-js"
+  // Without explicit binaryTargets, Prisma only bundles the engine for the
+  // machine `prisma generate` was run on. This project's node_modules was
+  // generated on Windows and zipped as-is, so running it anywhere else
+  // (Linux/Mac dev machines, most CI, most grading environments) fails with
+  // "could not locate the Query Engine for runtime ...". Listing the
+  // common targets here makes `npx prisma generate` produce a client that
+  // works everywhere, and is also why node_modules should never be zipped/
+  // committed in the first place — see FIXES_APPLIED.md.
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------
+// ROLES  — Admin / Security Officer / Employee
+// ---------------------------------------------------------------------
+model Role {
+  roleId      Int      @id @default(autoincrement()) @map("role_id")
+  roleName    String   @unique @map("role_name") @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  users User[]
+
+  @@map("roles")
+}
+
+// ---------------------------------------------------------------------
+// USERS  — login accounts for all system actors
+// ---------------------------------------------------------------------
+model User {
+  userId       Int       @id @default(autoincrement()) @map("user_id")
+  username     String    @unique @db.VarChar(50)
+  email        String    @unique @db.VarChar(150)
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  roleId       Int       @map("role_id")
+  fullName     String    @map("full_name") @db.VarChar(150)
+  phone        String?   @db.VarChar(20)
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  role Role @relation(fields: [roleId], references: [roleId], onDelete: Restrict)
+
+  employee Employee?
+
+  approvedVisits   Visit[] @relation("ApprovedBy")
+  checkedInVisits  Visit[] @relation("CheckedInBy")
+  checkedOutVisits Visit[] @relation("CheckedOutBy")
+
+  logs Log[]
+
+  @@index([roleId], name: "idx_users_role")
+  @@map("users")
+}
+
+// ---------------------------------------------------------------------
+// DEPARTMENTS
+// ---------------------------------------------------------------------
+model Department {
+  departmentId   Int      @id @default(autoincrement()) @map("department_id")
+  departmentName String   @unique @map("department_name") @db.VarChar(100)
+  description    String?  @db.VarChar(255)
+  location       String?  @db.VarChar(150)
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  employees Employee[]
+  visits    Visit[]
+
+  @@map("departments")
+}
+
+// ---------------------------------------------------------------------
+// EMPLOYEES  — staff who can be visit hosts; may optionally have a login
+// ---------------------------------------------------------------------
+model Employee {
+  employeeId   Int      @id @default(autoincrement()) @map("employee_id")
+  employeeCode String   @unique @map("employee_code") @db.VarChar(30)
+  firstName    String   @map("first_name") @db.VarChar(100)
+  lastName     String   @map("last_name") @db.VarChar(100)
+  email        String   @unique @db.VarChar(150)
+  phone        String?  @db.VarChar(20)
+  designation  String?  @db.VarChar(100)
+  departmentId Int      @map("department_id")
+  userId       Int?     @unique @map("user_id")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  department Department @relation(fields: [departmentId], references: [departmentId], onDelete: Restrict)
+  user       User?      @relation(fields: [userId], references: [userId], onDelete: SetNull)
+
+  hostedVisits Visit[] @relation("HostEmployee")
+
+  @@index([departmentId], name: "idx_employees_department")
+  @@map("employees")
+}
+
+// ---------------------------------------------------------------------
+// VISITORS  — master directory (kept separate from VISITS for history)
+// ---------------------------------------------------------------------
+model Visitor {
+  visitorId     Int      @id @default(autoincrement()) @map("visitor_id")
+  firstName     String   @map("first_name") @db.VarChar(100)
+  lastName      String   @map("last_name") @db.VarChar(100)
+  email         String?  @db.VarChar(150)
+  phone         String   @db.VarChar(20)
+  companyName   String?  @map("company_name") @db.VarChar(150)
+  idProofType   IdProofType @map("id_proof_type")
+  idProofNumber String   @map("id_proof_number") @db.VarChar(50)
+  photoUrl      String?  @map("photo_url") @db.VarChar(255)
+  address       String?  @db.VarChar(255)
+  isBlacklisted Boolean  @default(false) @map("is_blacklisted")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  visits Visit[]
+
+  @@unique([idProofType, idProofNumber], name: "uq_visitor_id_proof")
+  @@index([phone], name: "idx_visitors_phone")
+  @@index([lastName, firstName], name: "idx_visitors_name")
+  @@map("visitors")
+}
+
+enum IdProofType {
+  NATIONAL_ID
+  PASSPORT
+  DRIVER_LICENSE
+  EMPLOYEE_ID
+  OTHER
+
+  @@map("id_proof_type")
+}
+
+// ---------------------------------------------------------------------
+// VISITS  — transactional check-in/out record
+// ---------------------------------------------------------------------
+model Visit {
+  visitId         Int         @id @default(autoincrement()) @map("visit_id")
+  visitorId       Int         @map("visitor_id")
+  hostEmployeeId  Int         @map("host_employee_id")
+  departmentId    Int         @map("department_id")
+  purpose         String      @db.VarChar(255)
+  badgeNumber     String?     @map("badge_number") @db.VarChar(30)
+  checkInTime     DateTime?   @map("check_in_time")
+  checkOutTime    DateTime?   @map("check_out_time")
+  visitStatus     VisitStatus @default(Pre_Registered) @map("visit_status")
+  approvedBy      Int?        @map("approved_by")
+  checkedInBy     Int?        @map("checked_in_by")
+  checkedOutBy    Int?        @map("checked_out_by")
+  remarks         String?     @db.VarChar(255)
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  visitor       Visitor    @relation(fields: [visitorId], references: [visitorId], onDelete: Restrict)
+  hostEmployee  Employee   @relation("HostEmployee", fields: [hostEmployeeId], references: [employeeId], onDelete: Restrict)
+  department    Department @relation(fields: [departmentId], references: [departmentId], onDelete: Restrict)
+
+  approvedByUser   User? @relation("ApprovedBy", fields: [approvedBy], references: [userId], onDelete: SetNull)
+  checkedInByUser  User? @relation("CheckedInBy", fields: [checkedInBy], references: [userId], onDelete: SetNull)
+  checkedOutByUser User? @relation("CheckedOutBy", fields: [checkedOutBy], references: [userId], onDelete: SetNull)
+
+  @@index([visitorId], name: "idx_visits_visitor")
+  @@index([hostEmployeeId], name: "idx_visits_host")
+  @@index([departmentId], name: "idx_visits_department")
+  @@index([visitStatus], name: "idx_visits_status")
+  @@index([checkInTime], name: "idx_visits_checkin")
+  @@index([checkOutTime], name: "idx_visits_checkout")
+  @@index([visitStatus, checkInTime], name: "idx_visits_status_checkin")
+  @@map("visits")
+}
+
+enum VisitStatus {
+  Pre_Registered @map("Pre-Registered")
+  Checked_In     @map("Checked In")
+  Checked_Out    @map("Checked Out")
+  Cancelled      @map("Cancelled")
+  Denied         @map("Denied")
+
+  @@map("visit_status")
+}
+
+// ---------------------------------------------------------------------
+// LOGS  — audit trail (nullable user_id for system/anonymous events)
+// ---------------------------------------------------------------------
+model Log {
+  logId       Int      @id @default(autoincrement()) @map("log_id")
+  userId      Int?     @map("user_id")
+  action      String   @db.VarChar(100)
+  entityType  String?  @map("entity_type") @db.VarChar(50)
+  entityId    Int?     @map("entity_id")
+  description String?  @db.VarChar(500)
+  ipAddress   String?  @map("ip_address") @db.VarChar(45)
+  userAgent   String?  @map("user_agent") @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [userId], onDelete: SetNull)
+
+  @@index([userId], name: "idx_logs_user")
+  @@index([createdAt], name: "idx_logs_created_at")
+  @@index([entityType, entityId], name: "idx_logs_entity")
+  @@map("logs")
+}
