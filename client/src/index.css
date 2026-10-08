@@ -304,4 +304,69 @@
     filter: brightness(0.92);
   }
 
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 9999px;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.025em;
+  }
+  .badge-pill-green {
+    background-color: var(--success-bg) !important;
+    color: var(--success) !important;
+    border: 1px solid var(--success-border) !important;
+  }
+  .badge-pill-red {
+    background-color: var(--danger-bg) !important;
+    color: var(--danger) !important;
+    border: 1px solid var(--danger-border) !important;
+  }
+  .badge-pill-amber {
+    background-color: var(--warning-bg) !important;
+    color: var(--warning) !important;
+    border: 1px solid var(--warning-border) !important;
+  }
+  .badge-pill-neutral {
+    background-color: var(--neutral-badge-bg) !important;
+    color: var(--neutral-badge-text) !important;
+    border: 1px solid var(--neutral-badge-border) !important;
+  }
+
+  .id-number {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.025em;
+    color: var(--text-secondary);
+  }
+
+  .table-shell {
+    width: 100%;
+    font-size: 0.875rem;
+    border-collapse: collapse;
+  }
+  .table-shell thead th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    padding-bottom: 0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    border-bottom: 1px solid var(--border-default);
+  }
+  .table-shell tbody td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+    color: var(--text-primary);
+  }
+  .table-shell tbody tr:hover {
+    background-color: var(--border-subtle);
+  }
 }
+
