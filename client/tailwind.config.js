@@ -5,6 +5,33 @@ export default {
   theme: {
     extend: {
       colors: {
+        /* ── Semantic aliases pointing to CSS variables ─────────────────
+           These let Tailwind utilities like bg-surface / text-primary
+           exist in the class space while their actual values are driven
+           by the :root / .dark CSS variable blocks in index.css.        */
+        surface:  'var(--bg-surface)',
+        elevated: 'var(--bg-elevated)',
+        app:      'var(--bg-app)',
+
+        primary: {
+          DEFAULT: 'var(--text-primary)',
+          inverse: 'var(--primary-text)',
+        },
+        secondary: 'var(--text-secondary)',
+        muted:     'var(--text-muted)',
+        disabled:  'var(--text-disabled)',
+
+        border: {
+          DEFAULT: 'var(--border-default)',
+          subtle:  'var(--border-subtle)',
+          strong:  'var(--border-strong)',
+        },
+
+        accent: {
+          DEFAULT: 'var(--accent)',
+          subtle:  'var(--accent-subtle)',
+        },
+
         /* ── Brand palette (kept for direct use in sidebar / brand) ──── */
         ink: {
           DEFAULT: '#10192E',
