@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { getMeRequest, loginRequest, logoutRequest, registerRequest } from '../api/auth.api'
 import { registerForcedLogoutHandler, tokenStore } from '../api/axiosClient'
 import { normalizeRole } from '../utils/roles'
@@ -100,12 +100,4 @@ export function AuthProvider({ children }) {
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export function useAuth() {
-  const ctx = useContext(AuthContext)
-  if (!ctx) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return ctx
 }
