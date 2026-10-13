@@ -1,0 +1,300 @@
+-- =====================================================================
+-- Visitor Management System for Facilities
+-- Complete MySQL Database Script
+-- Engine: InnoDB | Charset: utf8mb4 | Collation: utf8mb4_unicode_ci
+-- =====================================================================
+
+DROP DATABASE IF EXISTS vms_db;
+CREATE DATABASE vms_db
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+USE vms_db;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- =====================================================================
+-- 1. ROLES
+-- =====================================================================
+CREATE TABLE roles (
+    role_id      INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    role_name    VARCHAR(50)  NOT NULL UNIQUE,
+    description  VARCHAR(255) NULL,
+    created_at   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- =====================================================================
+-- 2. USERS (system accounts: admin, security officer, employee/user)
+-- =====================================================================
+CREATE TABLE users (
+    user_id        INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    username       VARCHAR(50)  NOT NULL UNIQUE,
+    email          VARCHAR(120) NOT NULL UNIQUE,
+    password_hash  VARCHAR(255) NOT NULL,
+    role_id        INT UNSIGNED NOT NULL,
+    full_name      VARCHAR(120) NOT NULL,
+    phone          VARCHAR(20)  NULL,
+    is_active      TINYINT(1)   NOT NULL DEFAULT 1,
+    last_login_at  DATETIME     NULL,
+    created_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                 ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_users_role
+        FOREIGN KEY (role_id) REFERENCES roles(role_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT chk_users_email CHECK (email LIKE '%_@__%.__%')
+) ENGINE=InnoDB;
+
+-- =====================================================================
+-- 3. DEPARTMENTS
+-- =====================================================================
+CREATE TABLE departments (
+    department_id    INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    department_name  VARCHAR(100) NOT NULL UNIQUE,
+    description       VARCHAR(255) NULL,
+    location          VARCHAR(120) NULL,
+    is_active         TINYINT(1)   NOT NULL DEFAULT 1,
+    created_at        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                    ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- =====================================================================
+-- 4. EMPLOYEES (potential visit hosts; may optionally have a login)
+-- =====================================================================
+CREATE TABLE employees (
+    employee_id     INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    employee_code   VARCHAR(20)  NOT NULL UNIQUE,
+    first_name      VARCHAR(60)  NOT NULL,
+    last_name       VARCHAR(60)  NOT NULL,
+    email           VARCHAR(120) NOT NULL UNIQUE,
+    phone           VARCHAR(20)  NULL,
+    designation     VARCHAR(80)  NULL,
+    department_id   INT UNSIGNED NOT NULL,
+    user_id         INT UNSIGNED NULL UNIQUE,
+    profile_image   VARCHAR(255) NULL,
+    is_active       TINYINT(1)   NOT NULL DEFAULT 1,
+    created_at      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                  ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_employees_department
+        FOREIGN KEY (department_id) REFERENCES departments(department_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT fk_employees_user
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+        ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- =====================================================================
+-- 5. VISITORS (master directory of people who visit the facility)
+-- =====================================================================
+CREATE TABLE visitors (
+    visitor_id       INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    first_name       VARCHAR(60)  NOT NULL,
+    last_name        VARCHAR(60)  NOT NULL,
+    email            VARCHAR(120) NULL,
+    phone            VARCHAR(20)  NOT NULL,
+    company_name     VARCHAR(120) NULL,
+    id_proof_type    ENUM('NIC','Passport','Driving License','Employee ID','Other')
+                                  NOT NULL DEFAULT 'NIC',
+    id_proof_number  VARCHAR(50)  NOT NULL,
+    photo_url        VARCHAR(255) NULL,
+    address          VARCHAR(255) NULL,
+    is_blacklisted   TINYINT(1)   NOT NULL DEFAULT 0,
+    created_at       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                   ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT uq_visitor_idproof UNIQUE (id_proof_type, id_proof_number),
+    CONSTRAINT chk_visitor_phone CHECK (CHAR_LENGTH(phone) >= 7)
+) ENGINE=InnoDB;
+
+-- =====================================================================
+-- 6. VISITS (transactional check-in / check-out records)
+-- =====================================================================
+CREATE TABLE visits (
+    visit_id          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    visitor_id        INT UNSIGNED NOT NULL,
+    host_employee_id  INT UNSIGNED NOT NULL,
+    department_id     INT UNSIGNED NOT NULL,
+    purpose            VARCHAR(255) NOT NULL,
+    badge_number       VARCHAR(20)  NULL,
+    check_in_time      DATETIME     NOT NULL,
+    check_out_time     DATETIME     NULL,
+    visit_status        ENUM('Pre-Registered','Checked In','Checked Out','Cancelled','Denied')
+                                    NOT NULL DEFAULT 'Checked In',
+    approved_by        INT UNSIGNED NULL,
+    checked_in_by      INT UNSIGNED NULL,
+    checked_out_by     INT UNSIGNED NULL,
+    remarks            VARCHAR(255) NULL,
+    created_at         TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at         TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+                                     ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_visits_visitor
+        FOREIGN KEY (visitor_id) REFERENCES visitors(visitor_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT fk_visits_host
+        FOREIGN KEY (host_employee_id) REFERENCES employees(employee_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT fk_visits_department
+        FOREIGN KEY (department_id) REFERENCES departments(department_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT fk_visits_approved_by
+        FOREIGN KEY (approved_by) REFERENCES users(user_id)
+        ON UPDATE CASCADE ON DELETE SET NULL,
+    CONSTRAINT fk_visits_checked_in_by
+        FOREIGN KEY (checked_in_by) REFERENCES users(user_id)
+        ON UPDATE CASCADE ON DELETE SET NULL,
+    CONSTRAINT fk_visits_checked_out_by
+        FOREIGN KEY (checked_out_by) REFERENCES users(user_id)
+        ON UPDATE CASCADE ON DELETE SET NULL,
+    CONSTRAINT chk_visits_time
+        CHECK (check_out_time IS NULL OR check_out_time >= check_in_time)
+) ENGINE=InnoDB;
+
+-- =====================================================================
+-- 7. LOGS (system activity / audit trail)
+-- =====================================================================
+CREATE TABLE logs (
+    log_id       BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id      INT UNSIGNED NULL,
+    action        VARCHAR(50)  NOT NULL,
+    entity_type   VARCHAR(50)  NOT NULL,
+    entity_id     BIGINT UNSIGNED NULL,
+    description   VARCHAR(500) NULL,
+    ip_address    VARCHAR(45)  NULL,
+    user_agent    VARCHAR(255) NULL,
+    created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_logs_user
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+        ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- =====================================================================
+-- INDEXES (in addition to PK / UNIQUE indexes created above)
+-- =====================================================================
+CREATE INDEX idx_users_role            ON users(role_id);
+CREATE INDEX idx_employees_department  ON employees(department_id);
+CREATE INDEX idx_visitors_phone        ON visitors(phone);
+CREATE INDEX idx_visitors_name         ON visitors(last_name, first_name);
+CREATE INDEX idx_visits_visitor        ON visits(visitor_id);
+CREATE INDEX idx_visits_host           ON visits(host_employee_id);
+CREATE INDEX idx_visits_department     ON visits(department_id);
+CREATE INDEX idx_visits_status         ON visits(visit_status);
+CREATE INDEX idx_visits_checkin        ON visits(check_in_time);
+CREATE INDEX idx_visits_checkout       ON visits(check_out_time);
+CREATE INDEX idx_visits_status_checkin ON visits(visit_status, check_in_time);
+CREATE INDEX idx_logs_user             ON logs(user_id);
+CREATE INDEX idx_logs_created_at       ON logs(created_at);
+CREATE INDEX idx_logs_entity           ON logs(entity_type, entity_id);
+
+-- =====================================================================
+-- SAMPLE DATA
+-- =====================================================================
+
+INSERT INTO roles (role_name, description) VALUES
+('Admin', 'Full system access and configuration'),
+('Security Officer', 'Manages visitor check-in/check-out at gates'),
+('Employee', 'Facility staff who can host visitors and view own visits');
+
+-- Passwords below are valid bcrypt hashes for Admin@12345, Security@12345, and Employee@12345
+INSERT INTO users (username, email, password_hash, role_id, full_name, phone) VALUES
+('admin',     'admin@example.com',    '$2b$12$AriDrJ0ObcpA6yts5StwdOm0amr5tMNu92Dg/N/CksoCvDESUfxPS', 1, 'System Administrator', '0711000001'),
+('security1', 'security@example.com', '$2b$12$8TvaTc8sst1Pdz3lDZ1n3OCYsZg/kH8TrMqGWEg4Vlf6wLuJgfqqe', 2, 'Front Desk Security',  '0711000002'),
+('jsmith',    'employee@example.com', '$2b$12$H3WbHaM14wiqVteM4cRgRuYr3KKSz8lfW.izjhE7xmQOUT0Dm7BXy', 3, 'Jane Smith',           '0711000003');
+
+INSERT INTO departments (department_name, description, location) VALUES
+('Computer Science', 'Department of Computer Science', 'Building A - Floor 2'),
+('Human Resources',  'HR and administration',           'Building B - Floor 1'),
+('Research Lab',     'R&D laboratory',                  'Building C - Floor 3');
+
+INSERT INTO employees (employee_code, first_name, last_name, email, phone, designation, department_id, user_id) VALUES
+('EMP-001', 'Jane',   'Smith',   'employee@example.com', '0711000003', 'Lecturer',          1, 3),
+('EMP-002', 'Kasun',  'Fernando','kfernando@facility.com','0711000004','HR Manager',       2, NULL),
+('EMP-003', 'Amaya',  'Perera', 'aperera@facility.com', '0711000005', 'Research Scientist', 3, NULL);
+
+INSERT INTO visitors (first_name, last_name, email, phone, company_name, id_proof_type, id_proof_number, address) VALUES
+('Sunil',  'Rathnayake', 'sunil.r@example.com', '0770000001', 'ABC Traders',   'NIC',      '901234567V',  'Colombo 05'),
+('Dilani', 'Gunasekara', 'dilani.g@example.com','0770000002', NULL,            'Passport', 'N1234567',    'Negombo'),
+('Roshan', 'Jayasuriya', 'roshan.j@example.com','0770000003', 'Tech Solutions','NIC',      '882345671V',  'Kandy');
+
+INSERT INTO visits (visitor_id, host_employee_id, department_id, purpose, badge_number, check_in_time, check_out_time, visit_status, approved_by, checked_in_by, checked_out_by) VALUES
+(1, 1, 1, 'Guest lecture discussion',  'V-1001', '2026-07-20 09:15:00', '2026-07-20 11:00:00', 'Checked Out', 1, 2, 2),
+(2, 2, 2, 'Job interview',             'V-1002', '2026-07-20 10:00:00', NULL,                   'Checked In',  1, 2, NULL),
+(3, 3, 3, 'Lab equipment vendor visit','V-1003', '2026-06-15 13:30:00', '2026-06-15 15:45:00', 'Checked Out', 1, 2, 2);
+
+INSERT INTO logs (user_id, action, entity_type, entity_id, description, ip_address) VALUES
+(1, 'LOGIN',        'users',   1, 'Admin logged in successfully',          '192.168.1.10'),
+(2, 'CHECK_IN',      'visits',  1, 'Security officer checked in visitor 1', '192.168.1.20'),
+(2, 'CHECK_OUT',     'visits',  1, 'Security officer checked out visitor 1','192.168.1.20');
+
+-- =====================================================================
+-- REPORTING QUERIES
+-- =====================================================================
+
+-- 1) DAILY VISITOR REPORT (for a given date, e.g. 2026-07-20)
+SELECT
+    v.visit_id,
+    CONCAT(vi.first_name, ' ', vi.last_name) AS visitor_name,
+    vi.phone,
+    vi.company_name,
+    CONCAT(e.first_name, ' ', e.last_name)   AS host_employee,
+    d.department_name,
+    v.purpose,
+    v.check_in_time,
+    v.check_out_time,
+    v.visit_status
+FROM visits v
+JOIN visitors  vi ON vi.visitor_id = v.visitor_id
+JOIN employees e  ON e.employee_id = v.host_employee_id
+JOIN departments d ON d.department_id = v.department_id
+WHERE DATE(v.check_in_time) = '2026-07-20'
+ORDER BY v.check_in_time;
+
+-- 2) MONTHLY VISITOR REPORT (visit counts per day for a given month, e.g. July 2026)
+SELECT
+    DATE(v.check_in_time)              AS visit_date,
+    COUNT(*)                           AS total_visits,
+    SUM(v.visit_status = 'Checked Out') AS completed_visits,
+    SUM(v.visit_status = 'Checked In')  AS still_inside
+FROM visits v
+WHERE v.check_in_time >= '2026-07-01'
+  AND v.check_in_time <  '2026-08-01'
+GROUP BY DATE(v.check_in_time)
+ORDER BY visit_date;
+
+-- Monthly report - detailed rows (alternative, full detail for the month)
+SELECT
+    v.visit_id,
+    CONCAT(vi.first_name, ' ', vi.last_name) AS visitor_name,
+    d.department_name,
+    CONCAT(e.first_name, ' ', e.last_name)   AS host_employee,
+    v.check_in_time,
+    v.check_out_time,
+    v.visit_status
+FROM visits v
+JOIN visitors   vi ON vi.visitor_id = v.visitor_id
+JOIN employees  e  ON e.employee_id = v.host_employee_id
+JOIN departments d ON d.department_id = v.department_id
+WHERE v.check_in_time >= '2026-07-01'
+  AND v.check_in_time <  '2026-08-01'
+ORDER BY v.check_in_time;
+
+-- 3) CURRENT VISITORS INSIDE THE FACILITY (not yet checked out)
+SELECT
+    v.visit_id,
+    CONCAT(vi.first_name, ' ', vi.last_name) AS visitor_name,
+    vi.phone,
+    v.badge_number,
+    CONCAT(e.first_name, ' ', e.last_name)   AS host_employee,
+    d.department_name,
+    v.purpose,
+    v.check_in_time,
+    TIMESTAMPDIFF(MINUTE, v.check_in_time, NOW()) AS minutes_inside
+FROM visits v
+JOIN visitors   vi ON vi.visitor_id = v.visitor_id
+JOIN employees  e  ON e.employee_id = v.host_employee_id
+JOIN departments d ON d.department_id = v.department_id
+WHERE v.visit_status = 'Checked In'
+  AND v.check_out_time IS NULL
+ORDER BY v.check_in_time;
