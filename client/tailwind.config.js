@@ -62,6 +62,14 @@ export default {
         card:  '0 1px 3px rgba(16,25,46,0.08), 0 1px 2px rgba(16,25,46,0.04)',
         ring:  '0 0 0 3px var(--accent-subtle)',
       },
+      keyframes: {
+        fadeIn: { from: { opacity: 0, transform: 'translateY(4px)' }, to: { opacity: 1, transform: 'none' } },
+        slideIn: { from: { opacity: 0, transform: 'scale(0.97)' }, to: { opacity: 1, transform: 'scale(1)' } },
+      },
+      animation: {
+        fadeIn:  'fadeIn 0.15s ease-out',
+        slideIn: 'slideIn 0.15s ease-out',
+      },
     },
   },
   plugins: [],
