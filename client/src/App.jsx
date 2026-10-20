@@ -1,5 +1,6 @@
 import React from 'react'
+import AppRoutes from './routes/AppRoutes.jsx'
 
 export default function App() {
-  return <h1 className="font-display text-2xl p-8">Gatehouse VMS</h1>
+  return <AppRoutes />
 }
