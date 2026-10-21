@@ -7,6 +7,8 @@ import { ROLES } from '../utils/roles.js'
 
 import AuthLayout from '../components/layout/AuthLayout.jsx'
 
+import Login from '../pages/auth/Login.jsx'
+
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
 import { roleHomePath } from '../utils/roles.js'
@@ -21,6 +23,11 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<RootRedirect />} />
+
+      {/* Public */}
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
 
       {/* Authenticated */}
       <Route element={<ProtectedRoute />}>
