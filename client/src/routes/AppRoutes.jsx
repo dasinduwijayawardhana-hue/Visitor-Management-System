@@ -5,6 +5,8 @@ import ProtectedRoute from './ProtectedRoute.jsx'
 import RoleRoute from './RoleRoute.jsx'
 import { ROLES } from '../utils/roles.js'
 
+import AuthLayout from '../components/layout/AuthLayout.jsx'
+
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
 import { roleHomePath } from '../utils/roles.js'
