@@ -27,3 +27,26 @@ npm run build               # production build to /dist
 ```
 
 The backend is expected at `http://localhost:5000/api` by default (see `.env.example`).
+
+## Folder structure
+
+```
+src/
+  api/            axios instance + one file per resource (auth, users, ...)
+  context/        AuthContext, ToastContext, ThemeContext
+  hooks/          useAuth, useToast, useTheme, usePagination, useDebounce
+  routes/         ProtectedRoute (auth check), RoleRoute (role check), AppRoutes
+  components/
+    layout/       Sidebar, Topbar, DashboardLayout, AuthLayout, navConfig
+    common/       Table, Pagination, Modal, ConfirmDialog, Badge, SearchInput,
+                  Spinner, EmptyState, Card (StatCard), PageHeader, FormField,
+                  PendingBackendNotice
+    charts/       Chart.js wrappers: DailyVisitorsChart, MonthlyVisitorsChart
+  pages/
+    auth/         Login, Register
+    admin/        Dashboard, Users, Visitors, Employees, Departments, Visits,
+                  Reports, Logs (pending backend), Profile
+    security/     Dashboard, VisitorRegistration, CheckIn, CheckOut, VisitorSearch
+    employee/     Dashboard, MyVisitors
+  utils/          roles.js, constants.js, formatters.js
+```

@@ -1,0 +1,161 @@
+/* Page Load Fade In */
+.auth-page-fade-in {
+  animation: pageFadeIn 1s ease-out forwards;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Logo Animation (Load) + Continuous Float */
+.auth-logo-container {
+  animation: 
+    logoEntrance 0.8s ease-out forwards,
+    logoFloat 4s ease-in-out 1.2s infinite;
+  opacity: 0;
+  /* Glassmorphism styling */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+@keyframes logoEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+  }
+  50% {
+    transform: translateY(-4px);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+  }
+}
+
+.auth-logo-container:hover {
+  transform: scale(1.05) rotate(2deg) !important;
+  box-shadow: 0 0 35px rgba(59, 130, 246, 0.6) !important;
+}
+
+/* Typewriter Effect */
+.auth-typewriter-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid rgba(255,255,255,0.8);
+  width: 0;
+  animation: 
+    typing 1.2s steps(40, end) 1.2s forwards,
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: rgba(255,255,255,0.8); }
+}
+
+/* Fade Up */
+.auth-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Slide from Left */
+.auth-slide-from-left {
+  opacity: 0;
+  animation: slideFromLeft 0.8s ease-out forwards;
+}
+
+@keyframes slideFromLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Slide from Right (for Form Card) */
+.auth-slide-from-right {
+  opacity: 0;
+  animation: slideFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideFromRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Delay Utilities */
+.delay-1 { animation-delay: 2.5s; }
+.delay-2 { animation-delay: 2.8s; }
+.delay-3 { animation-delay: 3.1s; }
+.delay-4 { animation-delay: 3.4s; }
+.delay-5 { animation-delay: 3.6s; }
+.delay-6 { animation-delay: 3.8s; }
+.delay-form { animation-delay: 4.0s; }
+
+/* Modal Animation */
+.auth-modal-overlay {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.auth-modal-content {
+  animation: modalZoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Login Button Glow */
+.auth-form-card button[type="submit"] {
+  animation: buttonGlowPulse 3s infinite 1s;
+}
+
+@keyframes buttonFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes buttonGlowPulse {
+  0%, 100% { box-shadow: 0 0 5px rgba(201, 162, 75, 0); }
+  50% { box-shadow: 0 0 15px rgba(201, 162, 75, 0.4); }
+}
