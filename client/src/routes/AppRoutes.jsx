@@ -6,6 +6,7 @@ import RoleRoute from './RoleRoute.jsx'
 import { ROLES } from '../utils/roles.js'
 
 import AuthLayout from '../components/layout/AuthLayout.jsx'
+import DashboardLayout from '../components/layout/DashboardLayout.jsx'
 
 import Login from '../pages/auth/Login.jsx'
 import Register from '../pages/auth/Register.jsx'
