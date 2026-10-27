@@ -7,7 +7,7 @@ import Chart from 'chart.js/auto'
  * - Creates the chart safely on mount without using structuredClone or JSON.stringify,
  *   preventing DataCloneError crashes on callback functions or DOM nodes.
  * - Updates existing chart instances in-place when data or options change.
- * - Destroys the chart cleanly on unmount.
+ * - Handles React 18 StrictMode double-mount and destroys the chart cleanly on unmount.
  *
  * @param {import('chart.js').ChartConfiguration} config
  * @returns {React.RefObject<HTMLCanvasElement>}
@@ -19,6 +19,12 @@ export default function useChartInstance(config) {
   // Initial mount & canvas instance creation
   useEffect(() => {
     if (!canvasRef.current) return
+
+    // Clean up any existing Chart.js instance bound to this canvas element (e.g. StrictMode)
+    const existingChart = Chart.getChart(canvasRef.current)
+    if (existingChart) {
+      existingChart.destroy()
+    }
 
     chartRef.current = new Chart(canvasRef.current, {
       type: config.type,
