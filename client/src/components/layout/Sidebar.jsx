@@ -5,6 +5,9 @@ import useAuth from '../../hooks/useAuth.js'
 import companyLogo from '../../Assests/img/Company_logo.png'
 
 const NAV_ITEMS = {
+  [ROLES.ADMIN]: [
+    { to: '/admin/dashboard', label: 'Dashboard', icon: '◧' },
+  ],
 }
 
 export default function Sidebar({ open, onClose }) {

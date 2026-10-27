@@ -11,6 +11,8 @@ import DashboardLayout from '../components/layout/DashboardLayout.jsx'
 import Login from '../pages/auth/Login.jsx'
 import Register from '../pages/auth/Register.jsx'
 
+import AdminDashboard from '../pages/admin/AdminDashboard.jsx'
+
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
 import { roleHomePath } from '../utils/roles.js'
@@ -34,6 +36,12 @@ export default function AppRoutes() {
 
       {/* Authenticated */}
       <Route element={<ProtectedRoute />}>
+        {/* Admin */}
+        <Route element={<RoleRoute allowedRoles={[ROLES.ADMIN]} />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          </Route>
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFound />} />
