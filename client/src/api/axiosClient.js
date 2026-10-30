@@ -69,8 +69,10 @@ axiosClient.interceptors.response.use(
             })
         }
         const body = await refreshPromise
-        const newAccess = body?.accessToken
-        const newRefresh = body?.refreshToken || refreshToken
+        // Backend wraps every response as { success, message, data }.
+        // POST /auth/refresh's payload is body.data.accessToken.
+        const newAccess = body?.data?.accessToken
+        const newRefresh = body?.data?.refreshToken || refreshToken
         tokenStore.set(newAccess, newRefresh)
 
         originalRequest.headers.Authorization = `Bearer ${newAccess}`
