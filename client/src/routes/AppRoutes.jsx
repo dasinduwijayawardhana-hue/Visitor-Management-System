@@ -13,6 +13,7 @@ import Register from '../pages/auth/Register.jsx'
 
 import AdminDashboard from '../pages/admin/AdminDashboard.jsx'
 import UsersPage from '../pages/admin/UsersPage.jsx'
+import VisitorsPage from '../pages/admin/VisitorsPage.jsx'
 
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
@@ -42,6 +43,7 @@ export default function AppRoutes() {
           <Route element={<DashboardLayout />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<UsersPage />} />
+            <Route path="/admin/visitors" element={<VisitorsPage />} />
           </Route>
         </Route>
       </Route>

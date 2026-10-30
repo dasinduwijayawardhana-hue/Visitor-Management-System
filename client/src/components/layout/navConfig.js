@@ -5,5 +5,6 @@ export const NAV_ITEMS = {
   [ROLES.ADMIN]: [
     { to: '/admin/dashboard', label: 'Dashboard', icon: '◧' },
     { to: '/admin/users', label: 'Users', icon: '◍' },
+    { to: '/admin/visitors', label: 'Visitors', icon: '◔' },
   ],
 }
