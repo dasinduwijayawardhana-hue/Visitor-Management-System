@@ -17,7 +17,7 @@ export default function Register() {
     watch,
     formState: { errors },
   } = useForm({
-    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
+    defaultValues: { username: '', fullName: '', email: '', password: '', confirmPassword: '' },
   })
 
   const password = watch('password')
@@ -40,12 +40,25 @@ export default function Register() {
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4" noValidate>
-        <FormField label="Full name" required error={errors.name?.message}>
+        <FormField label="Username" required error={errors.username?.message}>
+          <input
+            type="text"
+            className="input-field"
+            placeholder="jdoe"
+            {...register('username', {
+              required: 'Username is required',
+              minLength: { value: 3, message: 'At least 3 characters' },
+              pattern: { value: /^[a-zA-Z0-9]+$/, message: 'Letters and numbers only' },
+            })}
+          />
+        </FormField>
+
+        <FormField label="Full name" required error={errors.fullName?.message}>
           <input
             type="text"
             className="input-field"
             placeholder="Jane Perera"
-            {...register('name', { required: 'Full name is required' })}
+            {...register('fullName', { required: 'Full name is required' })}
           />
         </FormField>
 
