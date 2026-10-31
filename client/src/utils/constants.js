@@ -10,6 +10,14 @@ export const VISIT_STATUS = {
   DENIED: 'Denied',
 }
 
+export const VISIT_STATUS_LABEL = {
+  Pre_Registered: 'Pre-Registered',
+  Checked_In: 'Checked In',
+  Checked_Out: 'Checked Out',
+  Cancelled: 'Cancelled',
+  Denied: 'Denied',
+}
+
 export const STATUS_BADGE_MAP = {
   Pre_Registered: 'badge-pill-amber',
   Checked_In: 'badge-pill-green',
