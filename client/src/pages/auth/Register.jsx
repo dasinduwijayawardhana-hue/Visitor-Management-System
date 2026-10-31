@@ -15,9 +15,10 @@ export default function Register() {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors },
   } = useForm({
-    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
+    defaultValues: { username: '', fullName: '', email: '', password: '', confirmPassword: '' },
   })
 
   const password = watch('password')
@@ -28,7 +29,26 @@ export default function Register() {
       toast.success('Registration successful! Your account has been created successfully. Please sign in.')
       navigate('/login', { replace: true })
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Could not create your account right now. Please try again later.')
+      const serverMessage = err.response?.data?.message
+      const serverErrors = err.response?.data?.errors
+
+      if (Array.isArray(serverErrors) && serverErrors.length > 0) {
+        serverErrors.forEach((e) => {
+          if (e.field) {
+            setError(e.field, { message: e.message })
+          }
+        })
+        toast.error('Please correct the highlighted fields and try again.')
+      } else if (serverMessage) {
+        if (serverMessage.toLowerCase().includes('username')) {
+          setError('username', { message: serverMessage })
+        } else if (serverMessage.toLowerCase().includes('email')) {
+          setError('email', { message: serverMessage })
+        }
+        toast.error(serverMessage)
+      } else {
+        toast.error('Could not create your account right now. Please try again later.')
+      }
     }
   }
 
@@ -40,12 +60,25 @@ export default function Register() {
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4" noValidate>
-        <FormField label="Full name" required error={errors.name?.message}>
+        <FormField label="Username" required error={errors.username?.message}>
+          <input
+            type="text"
+            className="input-field"
+            placeholder="jdoe"
+            {...register('username', {
+              required: 'Username is required',
+              minLength: { value: 3, message: 'At least 3 characters' },
+              pattern: { value: /^[a-zA-Z0-9]+$/, message: 'Letters and numbers only' },
+            })}
+          />
+        </FormField>
+
+        <FormField label="Full name" required error={errors.fullName?.message}>
           <input
             type="text"
             className="input-field"
             placeholder="Jane Perera"
-            {...register('name', { required: 'Full name is required' })}
+            {...register('fullName', { required: 'Full name is required' })}
           />
         </FormField>
 

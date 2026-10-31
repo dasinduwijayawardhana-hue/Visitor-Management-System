@@ -1,11 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { ROLES } from '../../utils/roles.js'
+import { NAV_ITEMS } from './navConfig.js'
 import useAuth from '../../hooks/useAuth.js'
 import companyLogo from '../../Assests/img/Company_logo.png'
-
-const NAV_ITEMS = {
-}
 
 export default function Sidebar({ open, onClose }) {
   const { user } = useAuth()

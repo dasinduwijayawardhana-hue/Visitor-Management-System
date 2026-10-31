@@ -18,8 +18,12 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm({ defaultValues: { email: '', password: '' } })
+  } = useForm({ defaultValues: { username: '', password: '' } })
 
+  // NOTE: the field is named `username` to match POST /api/auth/login's
+  // request contract exactly. The backend accepts either a username or an
+  // email address in this field (auth.service.js#login matches against
+  // both columns), so we keep the input itself flexible for the user.
   const onSubmit = async (values) => {
     try {
       const user = await login(values)
@@ -27,7 +31,7 @@ export default function Login() {
       const redirectTo = location.state?.from?.pathname || roleHomePath(user?.role)
       navigate(redirectTo, { replace: true })
     } catch (err) {
-      const message = err.response?.data?.message || 'Invalid email or password.'
+      const message = err.response?.data?.message || 'Invalid username/email or password.'
       setError('password', { message })
       toast.error(message)
     }
@@ -41,12 +45,12 @@ export default function Login() {
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4" noValidate>
-        <FormField label="Email" required error={errors.email?.message}>
+        <FormField label="Username or email" required error={errors.username?.message}>
           <input
-            type="email"
+            type="text"
             className="input-field"
-            placeholder="you@company.com"
-            {...register('email', { required: 'Email is required' })}
+            placeholder="jdoe or you@company.com"
+            {...register('username', { required: 'Username or email is required' })}
           />
         </FormField>
 

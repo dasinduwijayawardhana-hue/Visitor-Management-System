@@ -22,7 +22,9 @@ export function AuthProvider({ children }) {
     }
     try {
       const { data: body } = await getMeRequest()
-      setUser(normalizeUser(body?.user || body))
+      // GET /auth/me returns { success, message, data: <user object> } -
+      // the user is body.data directly, not body.user.
+      setUser(normalizeUser(body?.data))
     } catch (err) {
       tokenStore.clear()
       setUser(null)
@@ -46,7 +48,8 @@ export function AuthProvider({ children }) {
     setAuthBusy(true)
     try {
       const { data: body } = await loginRequest(credentials)
-      const { user: rawUser, accessToken, refreshToken } = body || {}
+      // POST /auth/login returns { success, message, data: { user, accessToken, refreshToken } }.
+      const { user: rawUser, accessToken, refreshToken } = body?.data || {}
       tokenStore.set(accessToken, refreshToken)
       const currentUser = normalizeUser(rawUser)
       if (currentUser) {
@@ -63,13 +66,11 @@ export function AuthProvider({ children }) {
   const register = useCallback(async (payload) => {
     setAuthBusy(true)
     try {
+      // POST /auth/register returns { success, message, data: <created user> }
+      // and never issues tokens - self-signup always lands on /login to sign
+      // in explicitly with the new credentials (see pages/auth/Register.jsx).
       const { data: body } = await registerRequest(payload)
-      const { user: rawUser, accessToken, refreshToken } = body || {}
-      if (accessToken) {
-        tokenStore.set(accessToken, refreshToken)
-        setUser(normalizeUser(rawUser))
-      }
-      return normalizeUser(rawUser)
+      return normalizeUser(body?.data)
     } finally {
       setAuthBusy(false)
     }
