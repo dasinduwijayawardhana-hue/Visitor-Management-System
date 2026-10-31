@@ -15,6 +15,7 @@ export default function Register() {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors },
   } = useForm({
     defaultValues: { username: '', fullName: '', email: '', password: '', confirmPassword: '' },
@@ -28,7 +29,26 @@ export default function Register() {
       toast.success('Registration successful! Your account has been created successfully. Please sign in.')
       navigate('/login', { replace: true })
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Could not create your account right now. Please try again later.')
+      const serverMessage = err.response?.data?.message
+      const serverErrors = err.response?.data?.errors
+
+      if (Array.isArray(serverErrors) && serverErrors.length > 0) {
+        serverErrors.forEach((e) => {
+          if (e.field) {
+            setError(e.field, { message: e.message })
+          }
+        })
+        toast.error('Please correct the highlighted fields and try again.')
+      } else if (serverMessage) {
+        if (serverMessage.toLowerCase().includes('username')) {
+          setError('username', { message: serverMessage })
+        } else if (serverMessage.toLowerCase().includes('email')) {
+          setError('email', { message: serverMessage })
+        }
+        toast.error(serverMessage)
+      } else {
+        toast.error('Could not create your account right now. Please try again later.')
+      }
     }
   }
 
