@@ -26,4 +26,12 @@ export const STATUS_BADGE_MAP = {
   Denied: 'badge-pill-red',
 }
 
+export const ID_PROOF_TYPES = [
+  { value: 'NATIONAL_ID', label: 'National ID' },
+  { value: 'PASSPORT', label: 'Passport' },
+  { value: 'DRIVER_LICENSE', label: "Driver's License" },
+  { value: 'EMPLOYEE_ID', label: 'Employee ID' },
+  { value: 'OTHER', label: 'Other' },
+]
+
 export const PAGE_SIZE = 10

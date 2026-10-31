@@ -17,14 +17,7 @@ import {
   setVisitorBlacklist,
   updateVisitor,
 } from '../../api/visitors.api.js'
-
-const ID_PROOF_TYPES = [
-  { value: 'NATIONAL_ID', label: 'National ID' },
-  { value: 'PASSPORT', label: 'Passport' },
-  { value: 'DRIVER_LICENSE', label: "Driver's License" },
-  { value: 'EMPLOYEE_ID', label: 'Employee ID' },
-  { value: 'OTHER', label: 'Other' },
-]
+import { ID_PROOF_TYPES } from '../../utils/constants.js'
 
 export default function VisitorsPage() {
   const toast = useToast()
