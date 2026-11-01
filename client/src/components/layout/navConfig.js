@@ -8,5 +8,6 @@ export const NAV_ITEMS = {
     { to: '/admin/visitors', label: 'Visitors', icon: '◔' },
     { to: '/admin/employees', label: 'Employees', icon: '◒' },
     { to: '/admin/departments', label: 'Departments', icon: '◫' },
+    { to: '/admin/visits', label: 'Visits', icon: '◈' },
   ],
 }
