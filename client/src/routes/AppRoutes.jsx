@@ -20,6 +20,7 @@ import DepartmentsPage from '../pages/admin/DepartmentsPage.jsx'
 import VisitsPage from '../pages/admin/VisitsPage.jsx'
 import ReportsPage from '../pages/admin/ReportsPage.jsx'
 import LogsPage from '../pages/admin/LogsPage.jsx'
+import ProfilePage from '../pages/admin/ProfilePage.jsx'
 
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
@@ -56,6 +57,7 @@ export default function AppRoutes() {
             <Route path="/admin/visits" element={<VisitsPage />} />
             <Route path="/admin/reports" element={<ReportsPage />} />
             <Route path="/admin/logs" element={<LogsPage />} />
+            <Route path="/admin/profile" element={<ProfilePage />} />
           </Route>
         </Route>
       </Route>
