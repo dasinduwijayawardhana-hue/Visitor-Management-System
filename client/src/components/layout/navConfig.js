@@ -11,5 +11,6 @@ export const NAV_ITEMS = {
     { to: '/admin/departments', label: 'Departments', icon: '◫' },
     { to: '/admin/visits', label: 'Visits', icon: '◈' },
     { to: '/admin/reports', label: 'Reports', icon: '◲' },
+    { to: '/admin/logs', label: 'Logs', icon: '◱' },
   ],
 }
