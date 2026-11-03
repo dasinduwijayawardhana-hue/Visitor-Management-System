@@ -18,6 +18,7 @@ import BlacklistPage from '../pages/admin/BlacklistPage.jsx'
 import EmployeesPage from '../pages/admin/EmployeesPage.jsx'
 import DepartmentsPage from '../pages/admin/DepartmentsPage.jsx'
 import VisitsPage from '../pages/admin/VisitsPage.jsx'
+import ReportsPage from '../pages/admin/ReportsPage.jsx'
 
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
@@ -52,6 +53,7 @@ export default function AppRoutes() {
             <Route path="/admin/employees" element={<EmployeesPage />} />
             <Route path="/admin/departments" element={<DepartmentsPage />} />
             <Route path="/admin/visits" element={<VisitsPage />} />
+            <Route path="/admin/reports" element={<ReportsPage />} />
           </Route>
         </Route>
       </Route>
