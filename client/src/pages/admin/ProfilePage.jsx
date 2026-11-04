@@ -27,7 +27,7 @@ export default function ProfilePage() {
     setSaving(true)
     try {
       // PATCH /api/users/:id/change-password expects { currentPassword, newPassword }
-      await changePassword(user.id, payload)
+      await changePassword(user.userId, payload)
       toast.success('Password changed successfully.')
       reset()
     } catch (err) {
@@ -44,9 +44,9 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="panel p-6 flex flex-col items-center text-center lg:col-span-1">
           <span className="flex h-16 w-16 items-center justify-center rounded-full bg-brass/15 text-brass-dark dark:text-brass font-display font-semibold text-xl">
-            {initials(user?.name || user?.username || user?.email || 'U')}
+            {initials(user?.fullName || user?.username || user?.email || 'U')}
           </span>
-          <p className="mt-4 font-display text-base font-semibold text-ink dark:text-paper">{user?.name}</p>
+          <p className="mt-4 font-display text-base font-semibold text-ink dark:text-paper">{user?.fullName}</p>
           <p className="text-sm text-ink/50 dark:text-paper/50">@{user?.username}</p>
           <p className="text-sm text-ink/50 dark:text-paper/50">{user?.email}</p>
           <span className="badge-pill-neutral mt-3">{user?.role}</span>
