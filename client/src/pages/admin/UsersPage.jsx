@@ -13,12 +13,7 @@ import useToast from '../../hooks/useToast.js'
 import usePagination from '../../hooks/usePagination.js'
 import useDebounce from '../../hooks/useDebounce.js'
 import { createUser, deleteUser, getUsers, updateUser } from '../../api/users.api.js'
-
-const SEEDED_ROLES = [
-  { roleId: 1, roleName: 'Admin' },
-  { roleId: 2, roleName: 'Security Officer' },
-  { roleId: 3, roleName: 'Employee' },
-]
+import { getRoles } from '../../api/roles.api.js'
 
 export default function UsersPage() {
   const toast = useToast()
@@ -53,9 +48,15 @@ export default function UsersPage() {
   const fetchRoles = async () => {
     setRolesLoading(true)
     setRolesError(null)
-    // No GET /roles endpoint yet - IDs follow the seed order in prisma/seed.js.
-    setRoles(SEEDED_ROLES)
-    setRolesLoading(false)
+    try {
+      const { data: body } = await getRoles()
+      setRoles(Array.isArray(body?.data) ? body.data : [])
+    } catch (err) {
+      setRolesError('Could not load roles.')
+      toast.error('Could not load system roles.')
+    } finally {
+      setRolesLoading(false)
+    }
   }
 
   useEffect(() => {

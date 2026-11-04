@@ -590,3 +590,116 @@
   filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
 }
 
+/* -- Security Dashboard Hero Video Banner -- */
+.security-hero-banner {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+@media (min-width: 768px) {
+  .security-hero-banner {
+    height: 280px;
+  }
+}
+
+.security-hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.security-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(11, 19, 43, 0.75) 0%,
+    rgba(11, 19, 43, 0.45) 60%,
+    rgba(201, 162, 75, 0.15) 100%
+  );
+}
+
+.security-hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.security-hero-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #F8FAFC;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  line-height: 1.15;
+}
+
+.security-hero-sub {
+  font-size: 0.875rem;
+  color: rgba(248, 250, 252, 0.70);
+  margin-top: 0.25rem;
+}
+
+.security-hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.security-hero-ghost-btn {
+  color: #F8FAFC !important;
+  border-color: rgba(248, 250, 252, 0.35) !important;
+}
+.security-hero-ghost-btn:hover:not(:disabled) {
+  background-color: rgba(248, 250, 252, 0.1) !important;
+}
+
+/* -- Admin Dashboard branded header -- */
+.admin-dash-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.admin-dash-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.15));
+}
+
+.admin-dash-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.admin-dash-sub {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.125rem;
+}
+

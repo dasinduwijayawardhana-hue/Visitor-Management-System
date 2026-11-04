@@ -50,3 +50,24 @@ src/
     employee/     Dashboard, MyVisitors
   utils/          roles.js, constants.js, formatters.js
 ```
+
+## Authentication flow
+
+1. `POST /auth/login` returns an access token (+ refresh token), stored in
+   `localStorage` via `tokenStore` (`src/api/axiosClient.js`).
+2. Every request attaches `Authorization: Bearer <token>` via an axios request
+   interceptor.
+3. On a `401`, a response interceptor calls `POST /auth/refresh` once
+   (in-flight requests share a single refresh call), retries the original
+   request, and forces a logout if the refresh itself fails.
+4. `GET /auth/me` hydrates the current user on page load if a token exists.
+5. Registration (`POST /auth/register`) always creates an **Employee**
+   account, per the API contract.
+
+## Role-based access
+
+- `ProtectedRoute` redirects unauthenticated users to `/login`.
+- `RoleRoute` redirects authenticated users who lack the required role to
+  their own dashboard (`roleHomePath` in `utils/roles.js`).
+- The sidebar (`components/layout/navConfig.js`) renders only the nav items
+  for the signed-in user's role.
