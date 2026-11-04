@@ -22,6 +22,8 @@ import ReportsPage from '../pages/admin/ReportsPage.jsx'
 import LogsPage from '../pages/admin/LogsPage.jsx'
 import ProfilePage from '../pages/admin/ProfilePage.jsx'
 
+import SecurityDashboard from '../pages/security/SecurityDashboard.jsx'
+
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
 import { roleHomePath } from '../utils/roles.js'
@@ -58,6 +60,13 @@ export default function AppRoutes() {
             <Route path="/admin/reports" element={<ReportsPage />} />
             <Route path="/admin/logs" element={<LogsPage />} />
             <Route path="/admin/profile" element={<ProfilePage />} />
+          </Route>
+        </Route>
+
+        {/* Security Officer & Admin */}
+        <Route element={<RoleRoute allowedRoles={[ROLES.SECURITY, ROLES.ADMIN]} />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/security/dashboard" element={<SecurityDashboard />} />
           </Route>
         </Route>
       </Route>

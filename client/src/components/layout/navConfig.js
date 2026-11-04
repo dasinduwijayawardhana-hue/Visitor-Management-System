@@ -14,4 +14,7 @@ export const NAV_ITEMS = {
     { to: '/admin/logs', label: 'Logs', icon: '◱' },
     { to: '/admin/profile', label: 'Profile', icon: '◉' },
   ],
+  [ROLES.SECURITY]: [
+    { to: '/security/dashboard', label: 'Dashboard', icon: '◧' },
+  ],
 }
