@@ -16,5 +16,6 @@ export const NAV_ITEMS = {
   ],
   [ROLES.SECURITY]: [
     { to: '/security/dashboard', label: 'Dashboard', icon: '◧' },
+    { to: '/security/register-visitor', label: 'Register Visitor', icon: '✎' },
   ],
 }
