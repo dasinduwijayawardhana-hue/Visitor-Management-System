@@ -25,6 +25,7 @@ import ProfilePage from '../pages/admin/ProfilePage.jsx'
 import SecurityDashboard from '../pages/security/SecurityDashboard.jsx'
 import VisitorRegistrationPage from '../pages/security/VisitorRegistrationPage.jsx'
 import CheckInPage from '../pages/security/CheckInPage.jsx'
+import CheckOutPage from '../pages/security/CheckOutPage.jsx'
 
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
@@ -71,6 +72,7 @@ export default function AppRoutes() {
             <Route path="/security/dashboard" element={<SecurityDashboard />} />
             <Route path="/security/register-visitor" element={<VisitorRegistrationPage />} />
             <Route path="/security/check-in" element={<CheckInPage />} />
+            <Route path="/security/check-out" element={<CheckOutPage />} />
           </Route>
         </Route>
       </Route>
