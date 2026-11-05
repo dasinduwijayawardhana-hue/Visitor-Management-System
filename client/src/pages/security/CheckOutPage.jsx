@@ -34,13 +34,13 @@ export default function CheckOutPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const visitorName = (v) => (v?.visitor ? v.visitor.name : '—')
-  const hostName = (v) => (v?.hostEmployee ? v.hostEmployee.name : '—')
+  const visitorName = (v) => (v?.visitor ? `${v.visitor.firstName} ${v.visitor.lastName}` : '—')
+  const hostName = (v) => (v?.hostEmployee ? `${v.hostEmployee.firstName} ${v.hostEmployee.lastName}` : '—')
 
   const filtered = visits.filter((v) =>
     [
-      v.visitor ? v.visitor.name : null,
-      v.hostEmployee ? v.hostEmployee.name : null,
+      v.visitor ? `${v.visitor.firstName} ${v.visitor.lastName}` : null,
+      v.hostEmployee ? `${v.hostEmployee.firstName} ${v.hostEmployee.lastName}` : null,
       v.purpose,
     ]
       .filter(Boolean)
@@ -48,9 +48,9 @@ export default function CheckOutPage() {
   )
 
   const handleCheckOut = async (visit) => {
-    setProcessingId(visit.id)
+    setProcessingId(visit.visitId)
     try {
-      await checkOutVisit(visit.id)
+      await checkOutVisit(visit.visitId)
       toast.success(`${visitorName(visit)} checked out.`)
       fetchVisits()
     } catch (err) {
@@ -75,7 +75,7 @@ export default function CheckOutPage() {
         <Table
           loading={loading}
           rows={filtered}
-          rowKey="id"
+          rowKey="visitId"
           emptyTitle="No one is currently inside"
           emptyDescription="Visitors will appear here once they're checked in at the gate."
           columns={[
@@ -88,9 +88,9 @@ export default function CheckOutPage() {
               render: (row) => (typeof row.minutesInside === 'number' ? `${row.minutesInside} min` : '—'),
             },
             {
-              key: 'status',
+              key: 'visitStatus',
               header: 'Status',
-              render: (row) => <Badge status={row.status || VISIT_STATUS.CHECKED_IN} />,
+              render: (row) => <Badge status={row.visitStatus || VISIT_STATUS.CHECKED_IN} />,
             },
             {
               key: 'actions',
@@ -98,10 +98,10 @@ export default function CheckOutPage() {
               render: (row) => (
                 <button
                   className="btn-danger !px-3 !py-1.5 text-xs"
-                  disabled={processingId === row.id}
+                  disabled={processingId === row.visitId}
                   onClick={() => handleCheckOut(row)}
                 >
-                  {processingId === row.id ? 'Checking out…' : 'Check out'}
+                  {processingId === row.visitId ? 'Checking out…' : 'Check out'}
                 </button>
               ),
             },

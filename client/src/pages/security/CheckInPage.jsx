@@ -34,13 +34,13 @@ export default function CheckInPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const visitorName = (v) => (v?.visitor ? v.visitor.name : '—')
-  const hostName = (v) => (v?.hostEmployee ? v.hostEmployee.name : '—')
+  const visitorName = (v) => (v?.visitor ? `${v.visitor.firstName} ${v.visitor.lastName}` : '—')
+  const hostName = (v) => (v?.hostEmployee ? `${v.hostEmployee.firstName} ${v.hostEmployee.lastName}` : '—')
 
   const filtered = visits.filter((v) =>
     [
-      v.visitor ? v.visitor.name : null,
-      v.hostEmployee ? v.hostEmployee.name : null,
+      v.visitor ? `${v.visitor.firstName} ${v.visitor.lastName}` : null,
+      v.hostEmployee ? `${v.hostEmployee.firstName} ${v.hostEmployee.lastName}` : null,
       v.purpose,
     ]
       .filter(Boolean)
@@ -48,9 +48,9 @@ export default function CheckInPage() {
   )
 
   const handleCheckIn = async (visit) => {
-    setProcessingId(visit.id)
+    setProcessingId(visit.visitId)
     try {
-      await checkInVisit(visit.id)
+      await checkInVisit(visit.visitId)
       toast.success(`${visitorName(visit)} checked in.`)
       fetchVisits()
     } catch (err) {
@@ -75,7 +75,7 @@ export default function CheckInPage() {
         <Table
           loading={loading}
           rows={filtered}
-          rowKey="id"
+          rowKey="visitId"
           emptyTitle="No visitors waiting"
           emptyDescription="Newly registered visitors will appear here until they're checked in."
           columns={[
@@ -84,9 +84,9 @@ export default function CheckInPage() {
             { key: 'purpose', header: 'Purpose' },
             { key: 'createdAt', header: 'Registered', render: (row) => formatDateTime(row.createdAt) },
             {
-              key: 'status',
+              key: 'visitStatus',
               header: 'Status',
-              render: (row) => <Badge status={row.status || VISIT_STATUS.PRE_REGISTERED} />,
+              render: (row) => <Badge status={row.visitStatus || VISIT_STATUS.PRE_REGISTERED} />,
             },
             {
               key: 'actions',
@@ -94,10 +94,10 @@ export default function CheckInPage() {
               render: (row) => (
                 <button
                   className="btn-brass !px-3 !py-1.5 text-xs"
-                  disabled={processingId === row.id}
+                  disabled={processingId === row.visitId}
                   onClick={() => handleCheckIn(row)}
                 >
-                  {processingId === row.id ? 'Checking in…' : 'Check in'}
+                  {processingId === row.visitId ? 'Checking in…' : 'Check in'}
                 </button>
               ),
             },
