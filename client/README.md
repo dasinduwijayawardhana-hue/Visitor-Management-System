@@ -71,3 +71,12 @@ src/
   their own dashboard (`roleHomePath` in `utils/roles.js`).
 - The sidebar (`components/layout/navConfig.js`) renders only the nav items
   for the signed-in user's role.
+
+## Notes on API response shapes
+
+The contract specifies routes and access rules but not exact response
+bodies. Every data-consuming page reads defensively — e.g.
+`data?.data || data?.employees || data` — and dashboard/report charts
+normalize a couple of plausible shapes. Adjust the `render`/normalize
+functions in each page or in `components/charts/*.jsx` once real response
+shapes are confirmed.
