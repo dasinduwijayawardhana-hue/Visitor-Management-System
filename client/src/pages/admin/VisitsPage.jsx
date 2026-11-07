@@ -41,15 +41,15 @@ export default function VisitsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const visitorName = (v) => (v?.visitor ? v.visitor.name : '—')
-  const hostName = (v) => (v?.hostEmployee ? v.hostEmployee.name : '—')
+  const visitorName = (v) => (v?.visitor ? `${v.visitor.firstName} ${v.visitor.lastName}` : '—')
+  const hostName = (v) => (v?.hostEmployee ? `${v.hostEmployee.firstName} ${v.hostEmployee.lastName}` : '—')
 
   const filtered = visits.filter((v) =>
     [
-      v.visitor ? v.visitor.name : null,
-      v.hostEmployee ? v.hostEmployee.name : null,
+      v.visitor ? `${v.visitor.firstName} ${v.visitor.lastName}` : null,
+      v.hostEmployee ? `${v.hostEmployee.firstName} ${v.hostEmployee.lastName}` : null,
       v.purpose,
-      v.status,
+      v.visitStatus,
     ]
       .filter(Boolean)
       .some((f) => f.toLowerCase().includes(debouncedSearch.toLowerCase())),
@@ -57,9 +57,9 @@ export default function VisitsPage() {
   const { page, totalPages, pageItems, goTo } = usePagination(filtered)
 
   const handleStatusChange = async (visit, visitStatus) => {
-    setUpdatingId(visit.id)
+    setUpdatingId(visit.visitId)
     try {
-      await updateVisitStatus(visit.id, { status: visitStatus })
+      await updateVisitStatus(visit.visitId, { visitStatus })
       toast.success(`Visit marked as ${VISIT_STATUS_LABEL[visitStatus] || visitStatus}.`)
       fetchVisits()
     } catch (err) {
@@ -84,7 +84,7 @@ export default function VisitsPage() {
         <Table
           loading={loading}
           rows={pageItems}
-          rowKey="id"
+          rowKey="visitId"
           emptyTitle="No visits found"
           columns={[
             { key: 'visitor', header: 'Visitor', render: (row) => visitorName(row) },
@@ -92,20 +92,20 @@ export default function VisitsPage() {
             { key: 'purpose', header: 'Purpose' },
             { key: 'checkInTime', header: 'Check-in', render: (row) => formatDateTime(row.checkInTime) },
             { key: 'checkOutTime', header: 'Check-out', render: (row) => formatDateTime(row.checkOutTime) },
-            { key: 'status', header: 'Status', render: (row) => <Badge status={row.status} /> },
+            { key: 'visitStatus', header: 'Status', render: (row) => <Badge status={row.visitStatus} /> },
             {
               key: 'actions',
               header: '',
               render: (row) => {
-                const transitions = allowedStatusTransitions[row.status] || []
+                const transitions = allowedStatusTransitions[row.visitStatus] || []
                 return (
                 <select
                   className="input-field !py-1.5 text-xs w-auto"
-                  value={row.status}
-                  disabled={updatingId === row.id || transitions.length === 0}
+                  value={row.visitStatus}
+                  disabled={updatingId === row.visitId || transitions.length === 0}
                   onChange={(e) => handleStatusChange(row, e.target.value)}
                 >
-                  <option value={row.status}>{VISIT_STATUS_LABEL[row.status] || row.status}</option>
+                  <option value={row.visitStatus}>{VISIT_STATUS_LABEL[row.visitStatus] || row.visitStatus}</option>
                   {transitions.map((s) => (
                     <option key={s} value={s}>
                       {VISIT_STATUS_LABEL[s] || s}
