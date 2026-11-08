@@ -29,6 +29,7 @@ import CheckOutPage from '../pages/security/CheckOutPage.jsx'
 import VisitorSearchPage from '../pages/security/VisitorSearchPage.jsx'
 
 import EmployeeDashboard from '../pages/employee/EmployeeDashboard.jsx'
+import MyVisitorsPage from '../pages/employee/MyVisitorsPage.jsx'
 
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
@@ -84,6 +85,7 @@ export default function AppRoutes() {
         <Route element={<RoleRoute allowedRoles={[ROLES.EMPLOYEE]} />}>
           <Route element={<DashboardLayout />}>
             <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
+            <Route path="/employee/my-visitors" element={<MyVisitorsPage />} />
           </Route>
         </Route>
       </Route>
