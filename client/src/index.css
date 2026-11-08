@@ -703,3 +703,125 @@
   margin-top: 0.125rem;
 }
 
+/* === Admin Glassmorphism Theme === */
+.admin-glass-theme {
+  --bg-app: transparent;
+  --bg-surface: rgba(18, 28, 48, 0.85);
+  --bg-elevated: rgba(24, 38, 64, 0.95);
+  --bg-overlay: rgba(0, 0, 0, 0.65);
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-disabled: #64748B;
+  --border-subtle: rgba(248, 250, 252, 0.12);
+  --border-default: rgba(248, 250, 252, 0.24);
+}
+
+.admin-glass-theme .panel {
+  background: rgba(30, 30, 40, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+  color: #fff !important;
+}
+
+.admin-glass-theme .panel h3, 
+.admin-glass-theme .panel h2, 
+.admin-glass-theme .panel p,
+.admin-glass-theme .panel span,
+.admin-glass-theme .panel div {
+  color: #f8fafc;
+}
+
+.admin-glass-theme .admin-dash-header {
+  background: rgba(30, 30, 40, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+  color: #fff !important;
+}
+
+.admin-glass-theme .admin-dash-title, 
+.admin-glass-theme .admin-dash-sub {
+  color: #f8fafc !important;
+}
+
+.admin-glass-theme aside {
+  background: rgba(16, 25, 46, 0.6) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.admin-glass-theme header {
+  background: rgba(30, 30, 40, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+
+.admin-glass-theme header h1, 
+.admin-glass-theme header span {
+  color: #f8fafc !important;
+}
+
+.admin-glass-theme .panel h3, 
+.admin-glass-theme .panel h2, 
+.admin-glass-theme .panel p,
+.admin-glass-theme .panel span,
+.admin-glass-theme .panel div {
+  color: #f8fafc;
+}
+
+.admin-glass-theme aside nav a {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+.admin-glass-theme aside nav a.bg-white\/10 {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+
+.admin-glass-theme .badge-card {
+  background: rgba(30, 30, 40, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+.admin-glass-theme .badge-card p {
+  color: #f8fafc !important;
+}
+
+.admin-glass-theme .badge-card::before {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+
+.auth-left-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.65) 0%,
+    rgba(0,0,0,0.45) 35%,
+    rgba(0,0,0,0.20) 55%,
+    transparent 75%
+  );
+  z-index: 1;
+}
+
+.auth-desc-glass {
+  background: rgba(0,0,0,0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
