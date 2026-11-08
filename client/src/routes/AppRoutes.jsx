@@ -23,6 +23,13 @@ import LogsPage from '../pages/admin/LogsPage.jsx'
 import ProfilePage from '../pages/admin/ProfilePage.jsx'
 
 import SecurityDashboard from '../pages/security/SecurityDashboard.jsx'
+import VisitorRegistrationPage from '../pages/security/VisitorRegistrationPage.jsx'
+import CheckInPage from '../pages/security/CheckInPage.jsx'
+import CheckOutPage from '../pages/security/CheckOutPage.jsx'
+import VisitorSearchPage from '../pages/security/VisitorSearchPage.jsx'
+
+import EmployeeDashboard from '../pages/employee/EmployeeDashboard.jsx'
+import MyVisitorsPage from '../pages/employee/MyVisitorsPage.jsx'
 
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
@@ -67,6 +74,18 @@ export default function AppRoutes() {
         <Route element={<RoleRoute allowedRoles={[ROLES.SECURITY, ROLES.ADMIN]} />}>
           <Route element={<DashboardLayout />}>
             <Route path="/security/dashboard" element={<SecurityDashboard />} />
+            <Route path="/security/register-visitor" element={<VisitorRegistrationPage />} />
+            <Route path="/security/check-in" element={<CheckInPage />} />
+            <Route path="/security/check-out" element={<CheckOutPage />} />
+            <Route path="/security/search" element={<VisitorSearchPage />} />
+          </Route>
+        </Route>
+
+        {/* Employee */}
+        <Route element={<RoleRoute allowedRoles={[ROLES.EMPLOYEE]} />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
+            <Route path="/employee/my-visitors" element={<MyVisitorsPage />} />
           </Route>
         </Route>
       </Route>

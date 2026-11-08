@@ -703,3 +703,309 @@
   margin-top: 0.125rem;
 }
 
+/* === Admin Glassmorphism Theme === */
+.admin-glass-theme {
+  --bg-app: transparent;
+  --bg-surface: rgba(18, 28, 48, 0.85);
+  --bg-elevated: rgba(24, 38, 64, 0.95);
+  --bg-overlay: rgba(0, 0, 0, 0.65);
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-disabled: #64748B;
+  --border-subtle: rgba(248, 250, 252, 0.12);
+  --border-default: rgba(248, 250, 252, 0.24);
+}
+
+.admin-glass-theme .panel {
+  background: rgba(30, 30, 40, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+  color: #fff !important;
+}
+
+.admin-glass-theme .panel h3, 
+.admin-glass-theme .panel h2, 
+.admin-glass-theme .panel p,
+.admin-glass-theme .panel span,
+.admin-glass-theme .panel div {
+  color: #f8fafc;
+}
+
+.admin-glass-theme .admin-dash-header {
+  background: rgba(30, 30, 40, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+  color: #fff !important;
+}
+
+.admin-glass-theme .admin-dash-title, 
+.admin-glass-theme .admin-dash-sub {
+  color: #f8fafc !important;
+}
+
+.admin-glass-theme aside {
+  background: rgba(16, 25, 46, 0.6) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.admin-glass-theme header {
+  background: rgba(30, 30, 40, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+
+.admin-glass-theme header h1, 
+.admin-glass-theme header span {
+  color: #f8fafc !important;
+}
+
+.admin-glass-theme .panel h3, 
+.admin-glass-theme .panel h2, 
+.admin-glass-theme .panel p,
+.admin-glass-theme .panel span,
+.admin-glass-theme .panel div {
+  color: #f8fafc;
+}
+
+.admin-glass-theme aside nav a {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+.admin-glass-theme aside nav a.bg-white\/10 {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+
+.admin-glass-theme .badge-card {
+  background: rgba(30, 30, 40, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+.admin-glass-theme .badge-card p {
+  color: #f8fafc !important;
+}
+
+.admin-glass-theme .badge-card::before {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+
+.auth-left-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.65) 0%,
+    rgba(0,0,0,0.45) 35%,
+    rgba(0,0,0,0.20) 55%,
+    transparent 75%
+  );
+  z-index: 1;
+}
+
+.auth-desc-glass {
+  background: rgba(0,0,0,0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ===================================================================
+   EMPLOYEE GLASSMORPHISM THEME
+   Scoped to .employee-glass-theme â€” applied only to /employee routes.
+   =================================================================== */
+
+/* ===================================================================
+   EMPLOYEE GLASSMORPHISM THEME
+   Scoped to .employee-glass-theme — applied to /employee routes.
+   =================================================================== */
+
+.employee-glass-theme {
+  --bg-app: transparent;
+  --bg-surface: rgba(18, 28, 48, 0.85);
+  --bg-elevated: rgba(24, 38, 64, 0.95);
+  --bg-overlay: rgba(0, 0, 0, 0.65);
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-disabled: #64748B;
+  --border-subtle: rgba(248, 250, 252, 0.12);
+  --border-default: rgba(248, 250, 252, 0.24);
+}
+
+/* -- Panels & cards -- */
+.employee-glass-theme .panel {
+  background: rgba(13, 24, 45, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 40px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06) inset !important;
+  color: #f8fafc !important;
+}
+
+/* -- Badge / stat cards -- */
+.employee-glass-theme .badge-card {
+  background: rgba(13, 24, 45, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.5) !important;
+}
+.employee-glass-theme .badge-card::before {
+  background-color: rgba(255, 255, 255, 0.20) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+.employee-glass-theme .badge-card p {
+  color: #f8fafc !important;
+}
+
+/* -- Text inside panels -- */
+.employee-glass-theme .panel h1,
+.employee-glass-theme .panel h2,
+.employee-glass-theme .panel h3,
+.employee-glass-theme .panel h4,
+.employee-glass-theme .panel p,
+.employee-glass-theme .panel span,
+.employee-glass-theme .panel label,
+.employee-glass-theme .panel div {
+  color: #f8fafc;
+}
+
+/* -- Table rows -- */
+.employee-glass-theme .table-shell thead th {
+  color: #cbd5e1 !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+.employee-glass-theme .table-shell tbody td {
+  color: #f8fafc !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.employee-glass-theme .table-shell tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* -- Sidebar -- */
+.employee-glass-theme aside {
+  background: rgba(10, 18, 35, 0.90) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+.employee-glass-theme aside nav a {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.employee-glass-theme aside nav a.bg-white\/10 {
+  color: #fff !important;
+  background: rgba(201, 162, 75, 0.22) !important;
+  border-left: 3px solid #E4C877 !important;
+}
+
+/* -- Topbar -- */
+.employee-glass-theme header {
+  background: rgba(10, 18, 35, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+.employee-glass-theme header h1,
+.employee-glass-theme header span {
+  color: #f8fafc !important;
+}
+
+/* -- Input fields -- */
+.employee-glass-theme .input-field {
+  background: rgba(15, 25, 45, 0.75) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #f8fafc !important;
+}
+.employee-glass-theme .input-field::placeholder {
+  color: rgba(248, 250, 252, 0.55) !important;
+}
+.employee-glass-theme .input-field:focus {
+  border-color: #E4C877 !important;
+  box-shadow: 0 0 0 3px rgba(228, 200, 119, 0.25) !important;
+}
+
+/* -- Page header text -- */
+.employee-glass-theme h1,
+.employee-glass-theme h2,
+.employee-glass-theme h3 {
+  color: #f8fafc;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+.employee-glass-theme p {
+  color: rgba(248, 250, 252, 0.90);
+}
+
+/* -- Buttons maintain legibility -- */
+.employee-glass-theme .btn-ghost {
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.30) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+.employee-glass-theme .btn-ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+/* -- Security Glass Theme -- */
+.security-glass-theme {
+  --bg-app: transparent;
+  --bg-surface: rgba(13, 24, 45, 0.88);
+  --bg-elevated: rgba(20, 32, 58, 0.92);
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border-subtle: rgba(255, 255, 255, 0.15);
+  --border-default: rgba(255, 255, 255, 0.25);
+}
+
+.security-glass-theme .panel,
+.security-glass-theme .badge-card {
+  background: rgba(13, 24, 45, 0.88) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 40px -5px rgba(0, 0, 0, 0.5) !important;
+  color: #f8fafc !important;
+}
+
+.security-glass-theme h1,
+.security-glass-theme h2,
+.security-glass-theme h3 {
+  color: #f8fafc;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+.security-glass-theme p {
+  color: rgba(248, 250, 252, 0.90);
+}
+
+.security-glass-theme .btn-ghost {
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.30) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+.security-glass-theme .btn-ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+
