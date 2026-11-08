@@ -21,4 +21,7 @@ export const NAV_ITEMS = {
     { to: '/security/check-out', label: 'Check Out', icon: '✗' },
     { to: '/security/search', label: 'Search Visitors', icon: '⌕' },
   ],
+  [ROLES.EMPLOYEE]: [
+    { to: '/employee/dashboard', label: 'Dashboard', icon: '◧' },
+  ],
 }
