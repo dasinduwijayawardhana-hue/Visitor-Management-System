@@ -1009,3 +1009,59 @@
 }
 
 
+/* ===================================================================
+   LOGIN PAGE â€” FLOATING MUSIC CONTROL
+   Scoped to .music-control-btn â€” only rendered inside Login.jsx.
+   =================================================================== */
+
+.music-control-btn {
+  /* Position: fixed bottom-right, above all content */
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+
+  /* Size & shape */
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+
+  /* Glassmorphism finish */
+  background: rgba(15, 25, 45, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.40), 0 0 0 1px rgba(255,255,255,0.05) inset;
+
+  /* Icon colour */
+  color: rgba(255, 255, 255, 0.85);
+
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Smooth transitions */
+  transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease, color 200ms ease;
+}
+
+.music-control-btn:hover {
+  background: rgba(201, 162, 75, 0.30);
+  border-color: rgba(201, 162, 75, 0.55);
+  color: #ffffff;
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(201, 162, 75, 0.35), 0 0 0 1px rgba(255,255,255,0.1) inset;
+}
+
+.music-control-btn:active {
+  transform: scale(0.96);
+}
+
+/* Visible focus ring for keyboard navigation */
+.music-control-btn:focus-visible {
+  outline: 2px solid rgba(201, 162, 75, 0.85);
+  outline-offset: 3px;
+}
+
