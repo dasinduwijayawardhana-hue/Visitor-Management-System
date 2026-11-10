@@ -66,12 +66,20 @@ export default function Login() {
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-300">
-        Don&apos;t have an account?{' '}
-        <Link to="/register" className="font-semibold text-brass hover:underline">
-          Register as an employee
-        </Link>
-      </p>
+      <div className="mt-6 flex flex-col gap-2 items-center text-sm text-slate-300">
+        <p>
+          Don&apos;t have an account?{' '}
+          <Link to="/register" className="font-semibold text-brass hover:underline">
+            Register as an employee
+          </Link>
+        </p>
+        <p className="text-xs">
+          Are you a visitor?{' '}
+          <Link to="/visitor/login" className="font-semibold text-brass hover:underline">
+            Pre-register or sign in here
+          </Link>
+        </p>
+      </div>
     </div>
   )
 }
