@@ -31,6 +31,9 @@ import VisitorSearchPage from '../pages/security/VisitorSearchPage.jsx'
 import EmployeeDashboard from '../pages/employee/EmployeeDashboard.jsx'
 import MyVisitorsPage from '../pages/employee/MyVisitorsPage.jsx'
 
+// Visitor Portal pages
+import VisitorLoginPage from '../pages/visitor/VisitorLoginPage.jsx'
+
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
 import { roleHomePath } from '../utils/roles.js'
@@ -50,6 +53,7 @@ export default function AppRoutes() {
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/visitor/login" element={<VisitorLoginPage />} />
       </Route>
 
       {/* Authenticated */}
