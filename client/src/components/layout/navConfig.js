@@ -25,4 +25,7 @@ export const NAV_ITEMS = {
     { to: '/employee/dashboard', label: 'Dashboard', icon: '◧' },
     { to: '/employee/my-visitors', label: 'My Visitors', icon: '◔' },
   ],
+  [ROLES.VISITOR]: [
+    { to: '/visitor/dashboard', label: 'Dashboard', icon: '◧' },
+  ],
 }
