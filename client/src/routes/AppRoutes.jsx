@@ -33,6 +33,7 @@ import MyVisitorsPage from '../pages/employee/MyVisitorsPage.jsx'
 
 // Visitor Portal pages
 import VisitorLoginPage from '../pages/visitor/VisitorLoginPage.jsx'
+import VisitorRegisterPage from '../pages/visitor/VisitorRegisterPage.jsx'
 
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
@@ -54,6 +55,7 @@ export default function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/visitor/login" element={<VisitorLoginPage />} />
+        <Route path="/visitor/register" element={<VisitorRegisterPage />} />
       </Route>
 
       {/* Authenticated */}
