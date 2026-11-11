@@ -27,5 +27,6 @@ export const NAV_ITEMS = {
   ],
   [ROLES.VISITOR]: [
     { to: '/visitor/dashboard', label: 'Dashboard', icon: '◧' },
+    { to: '/visitor/visits/new', label: 'New Visit Request', icon: '◔' },
   ],
 }
