@@ -36,6 +36,7 @@ import VisitorLoginPage from '../pages/visitor/VisitorLoginPage.jsx'
 import VisitorRegisterPage from '../pages/visitor/VisitorRegisterPage.jsx'
 import VisitorDashboardPage from '../pages/visitor/VisitorDashboardPage.jsx'
 import VisitorNewVisitPage from '../pages/visitor/VisitorNewVisitPage.jsx'
+import VisitorProfilePage from '../pages/visitor/VisitorProfilePage.jsx'
 import VisitorVisitsPage from '../pages/visitor/VisitorVisitsPage.jsx'
 
 import NotFound from '../pages/NotFound.jsx'
@@ -104,6 +105,7 @@ export default function AppRoutes() {
             <Route path="/visitor/dashboard" element={<VisitorDashboardPage />} />
             <Route path="/visitor/visits" element={<VisitorVisitsPage />} />
             <Route path="/visitor/visits/new" element={<VisitorNewVisitPage />} />
+            <Route path="/visitor/profile" element={<VisitorProfilePage />} />
           </Route>
         </Route>
       </Route>

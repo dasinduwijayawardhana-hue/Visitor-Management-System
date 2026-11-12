@@ -29,5 +29,6 @@ export const NAV_ITEMS = {
     { to: '/visitor/dashboard', label: 'Dashboard', icon: '◧' },
     { to: '/visitor/visits', label: 'My Visits', icon: '◈' },
     { to: '/visitor/visits/new', label: 'New Visit Request', icon: '◔' },
+    { to: '/visitor/profile', label: 'My Profile', icon: '◉' },
   ],
 }
