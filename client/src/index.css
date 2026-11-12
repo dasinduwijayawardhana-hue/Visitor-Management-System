@@ -1009,3 +1009,139 @@
 }
 
 
+/* ===================================================================
+   LOGIN PAGE â€” FLOATING MUSIC CONTROL
+   Scoped to .music-control-btn â€” only rendered inside Login.jsx.
+   =================================================================== */
+
+.music-control-btn {
+  /* Position: fixed bottom-right, above all content */
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+
+  /* Size & shape */
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+
+  /* Glassmorphism finish */
+  background: rgba(15, 25, 45, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.40), 0 0 0 1px rgba(255,255,255,0.05) inset;
+
+  /* Icon colour */
+  color: rgba(255, 255, 255, 0.85);
+
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Smooth transitions */
+  transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease, color 200ms ease;
+}
+
+.music-control-btn:hover {
+  background: rgba(201, 162, 75, 0.30);
+  border-color: rgba(201, 162, 75, 0.55);
+  color: #ffffff;
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(201, 162, 75, 0.35), 0 0 0 1px rgba(255,255,255,0.1) inset;
+}
+
+.music-control-btn:active {
+  transform: scale(0.96);
+}
+
+/* Visible focus ring for keyboard navigation */
+.music-control-btn:focus-visible {
+  outline: 2px solid rgba(201, 162, 75, 0.85);
+  outline-offset: 3px;
+}
+
+/* ===================================================================
+   VISITOR PRE-REGISTRATION REDESIGN
+   =================================================================== */
+
+.input-field-custom {
+  width: 100% !important;
+  height: 48px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background-color: rgba(15, 25, 45, 0.75) !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.875rem !important;
+  color: #f8fafc !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.input-field-custom::placeholder {
+  color: rgba(248, 250, 252, 0.45) !important;
+}
+
+.input-field-custom:focus {
+  border-color: #E4C877 !important;
+  box-shadow: 0 0 0 3px rgba(228, 200, 119, 0.25) !important;
+}
+
+.input-field-custom:disabled {
+  background-color: rgba(15, 25, 45, 0.45) !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Dropdown styling */
+select.input-field-custom {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath stroke='rgba(248, 250, 252, 0.6)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M6 8l4 4 4-4'/%3E%3C/svg%3E") !important;
+  background-position: right 0.75rem center !important;
+  background-size: 1.25rem auto !important;
+  background-repeat: no-repeat !important;
+  padding-right: 2.5rem !important;
+}
+
+select.input-field-custom option {
+  background-color: #0f192d !important;
+  color: #f8fafc !important;
+}
+
+/* Scrollable container for forms */
+.visitor-register-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.visitor-register-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.visitor-register-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.visitor-register-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+.visitor-register-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Standard select options styling for browser dropdown overlays in glass/dark themes */
+.employee-glass-theme .input-field option,
+.security-glass-theme .input-field option,
+.admin-glass-theme .input-field option {
+  background-color: #0f192d !important;
+  color: #f8fafc !important;
+}
+
+

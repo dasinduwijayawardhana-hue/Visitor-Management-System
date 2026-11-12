@@ -31,6 +31,14 @@ import VisitorSearchPage from '../pages/security/VisitorSearchPage.jsx'
 import EmployeeDashboard from '../pages/employee/EmployeeDashboard.jsx'
 import MyVisitorsPage from '../pages/employee/MyVisitorsPage.jsx'
 
+// Visitor Portal pages
+import VisitorLoginPage from '../pages/visitor/VisitorLoginPage.jsx'
+import VisitorRegisterPage from '../pages/visitor/VisitorRegisterPage.jsx'
+import VisitorDashboardPage from '../pages/visitor/VisitorDashboardPage.jsx'
+import VisitorNewVisitPage from '../pages/visitor/VisitorNewVisitPage.jsx'
+import VisitorProfilePage from '../pages/visitor/VisitorProfilePage.jsx'
+import VisitorVisitsPage from '../pages/visitor/VisitorVisitsPage.jsx'
+
 import NotFound from '../pages/NotFound.jsx'
 import useAuth from '../hooks/useAuth.js'
 import { roleHomePath } from '../utils/roles.js'
@@ -50,6 +58,8 @@ export default function AppRoutes() {
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/visitor/login" element={<VisitorLoginPage />} />
+        <Route path="/visitor/register" element={<VisitorRegisterPage />} />
       </Route>
 
       {/* Authenticated */}
@@ -86,6 +96,16 @@ export default function AppRoutes() {
           <Route element={<DashboardLayout />}>
             <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
             <Route path="/employee/my-visitors" element={<MyVisitorsPage />} />
+          </Route>
+        </Route>
+
+        {/* Visitor */}
+        <Route element={<RoleRoute allowedRoles={[ROLES.VISITOR]} />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/visitor/dashboard" element={<VisitorDashboardPage />} />
+            <Route path="/visitor/visits" element={<VisitorVisitsPage />} />
+            <Route path="/visitor/visits/new" element={<VisitorNewVisitPage />} />
+            <Route path="/visitor/profile" element={<VisitorProfilePage />} />
           </Route>
         </Route>
       </Route>

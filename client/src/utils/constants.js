@@ -8,6 +8,10 @@ export const VISIT_STATUS = {
   CHECKED_OUT: 'Checked_Out',
   CANCELLED: 'Cancelled',
   DENIED: 'Denied',
+  PENDING: 'Pending',
+  APPROVED: 'Approved',
+  REJECTED: 'Rejected',
+  EXPIRED: 'Expired',
 }
 
 export const VISIT_STATUS_LABEL = {
@@ -16,6 +20,10 @@ export const VISIT_STATUS_LABEL = {
   Checked_Out: 'Checked Out',
   Cancelled: 'Cancelled',
   Denied: 'Denied',
+  Pending: 'Pending approval',
+  Approved: 'Approved',
+  Rejected: 'Rejected',
+  Expired: 'Expired',
 }
 
 export const STATUS_BADGE_MAP = {
@@ -24,6 +32,10 @@ export const STATUS_BADGE_MAP = {
   Checked_Out: 'badge-pill-neutral',
   Cancelled: 'badge-pill-red',
   Denied: 'badge-pill-red',
+  Pending: 'badge-pill-amber',
+  Approved: 'badge-pill-green',
+  Rejected: 'badge-pill-red',
+  Expired: 'badge-pill-neutral',
 }
 
 export const ID_PROOF_TYPES = [
