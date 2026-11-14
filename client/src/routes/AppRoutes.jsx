@@ -36,6 +36,7 @@ import VisitorLoginPage from '../pages/visitor/VisitorLoginPage.jsx'
 import VisitorRegisterPage from '../pages/visitor/VisitorRegisterPage.jsx'
 import VisitorDashboardPage from '../pages/visitor/VisitorDashboardPage.jsx'
 import VisitorNewVisitPage from '../pages/visitor/VisitorNewVisitPage.jsx'
+import VisitorGatePassPage from '../pages/visitor/VisitorGatePassPage.jsx'
 import VisitorProfilePage from '../pages/visitor/VisitorProfilePage.jsx'
 import VisitorVisitsPage from '../pages/visitor/VisitorVisitsPage.jsx'
 
@@ -105,6 +106,7 @@ export default function AppRoutes() {
             <Route path="/visitor/dashboard" element={<VisitorDashboardPage />} />
             <Route path="/visitor/visits" element={<VisitorVisitsPage />} />
             <Route path="/visitor/visits/new" element={<VisitorNewVisitPage />} />
+            <Route path="/visitor/gate-pass/:id" element={<VisitorGatePassPage />} />
             <Route path="/visitor/profile" element={<VisitorProfilePage />} />
           </Route>
         </Route>
