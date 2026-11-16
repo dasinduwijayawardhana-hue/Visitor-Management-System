@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment files
+.env
+client/.env
+server/.env
+
+# Build outputs
+dist/
+client/dist/
+server/dist/
+
+# Logs
+logs/
+server/logs/
+*.log
+
+# Uploads and temporary files
+server/uploads/visitors/*
+!server/uploads/visitors/.gitkeep
+server/reports/*
+!server/reports/.gitkeep
+
+# System and editor files
+.DS_Store
+Thumbs.db
+npm-debug.log*
