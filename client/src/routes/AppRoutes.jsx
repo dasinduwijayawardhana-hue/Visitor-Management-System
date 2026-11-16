@@ -30,6 +30,7 @@ import VisitorSearchPage from '../pages/security/VisitorSearchPage.jsx'
 
 import EmployeeDashboard from '../pages/employee/EmployeeDashboard.jsx'
 import MyVisitorsPage from '../pages/employee/MyVisitorsPage.jsx'
+import EmployeeVisitorRequestsPage from '../pages/employee/EmployeeVisitorRequestsPage.jsx'
 
 // Visitor Portal pages
 import VisitorLoginPage from '../pages/visitor/VisitorLoginPage.jsx'
@@ -96,6 +97,7 @@ export default function AppRoutes() {
         <Route element={<RoleRoute allowedRoles={[ROLES.EMPLOYEE]} />}>
           <Route element={<DashboardLayout />}>
             <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
+            <Route path="/employee/visitor-requests" element={<EmployeeVisitorRequestsPage />} />
             <Route path="/employee/my-visitors" element={<MyVisitorsPage />} />
           </Route>
         </Route>
