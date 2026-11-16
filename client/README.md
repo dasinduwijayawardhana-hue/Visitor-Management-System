@@ -92,3 +92,13 @@ shapes are confirmed.
   response as a download)
 - System Logs page is UI-only and marked "Pending Backend Support" since
   `/api/logs` isn't part of the contract
+
+## Design system
+
+"Badge" motif inspired by physical visitor ID badges: ink-navy sidebar with a
+brass accent strip, warm paper background, stat cards with a punched
+lanyard-clip notch (`.badge-card` in `src/index.css`), and monospaced
+figures for IDs/counts. Palette and component classes (`.btn-*`, `.panel`,
+`.badge-pill-*`, `.input-field`, `.table-shell`) live in `src/index.css` and
+`tailwind.config.js` — reuse them rather than one-off styles when adding
+pages.
