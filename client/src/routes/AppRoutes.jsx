@@ -27,9 +27,11 @@ import VisitorRegistrationPage from '../pages/security/VisitorRegistrationPage.j
 import CheckInPage from '../pages/security/CheckInPage.jsx'
 import CheckOutPage from '../pages/security/CheckOutPage.jsx'
 import VisitorSearchPage from '../pages/security/VisitorSearchPage.jsx'
+import SecurityGatePassVerificationPage from '../pages/security/SecurityGatePassVerificationPage.jsx'
 
 import EmployeeDashboard from '../pages/employee/EmployeeDashboard.jsx'
 import MyVisitorsPage from '../pages/employee/MyVisitorsPage.jsx'
+import EmployeeVisitorRequestsPage from '../pages/employee/EmployeeVisitorRequestsPage.jsx'
 
 // Visitor Portal pages
 import VisitorLoginPage from '../pages/visitor/VisitorLoginPage.jsx'
@@ -85,6 +87,7 @@ export default function AppRoutes() {
         <Route element={<RoleRoute allowedRoles={[ROLES.SECURITY, ROLES.ADMIN]} />}>
           <Route element={<DashboardLayout />}>
             <Route path="/security/dashboard" element={<SecurityDashboard />} />
+            <Route path="/security/verify-pass" element={<SecurityGatePassVerificationPage />} />
             <Route path="/security/register-visitor" element={<VisitorRegistrationPage />} />
             <Route path="/security/check-in" element={<CheckInPage />} />
             <Route path="/security/check-out" element={<CheckOutPage />} />
@@ -96,6 +99,7 @@ export default function AppRoutes() {
         <Route element={<RoleRoute allowedRoles={[ROLES.EMPLOYEE]} />}>
           <Route element={<DashboardLayout />}>
             <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
+            <Route path="/employee/visitor-requests" element={<EmployeeVisitorRequestsPage />} />
             <Route path="/employee/my-visitors" element={<MyVisitorsPage />} />
           </Route>
         </Route>

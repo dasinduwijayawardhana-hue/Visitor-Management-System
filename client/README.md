@@ -80,3 +80,15 @@ bodies. Every data-consuming page reads defensively — e.g.
 normalize a couple of plausible shapes. Adjust the `render`/normalize
 functions in each page or in `components/charts/*.jsx` once real response
 shapes are confirmed.
+
+## Features implemented
+
+- Responsive layout (mobile sidebar drawer, responsive tables/grids)
+- Dark mode (toggle in the top bar, persisted to `localStorage`)
+- Form validation (React Hook Form on every form)
+- Search, filters, and client-side pagination on all list pages
+- Toast notifications for every create/update/delete action
+- CSV/PDF export buttons on the Reports page (streams the backend's file
+  response as a download)
+- System Logs page is UI-only and marked "Pending Backend Support" since
+  `/api/logs` isn't part of the contract
