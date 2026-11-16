@@ -1,0 +1,247 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  roleId      Int      @id @default(autoincrement()) @map("role_id")
+  roleName    String   @unique @map("role_name") @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+  users       User[]
+
+  @@map("roles")
+}
+
+model User {
+  userId            Int                 @id @default(autoincrement()) @map("user_id")
+  username          String              @unique @db.VarChar(50)
+  email             String              @unique @db.VarChar(150)
+  passwordHash      String              @map("password_hash") @db.VarChar(255)
+  roleId            Int                 @map("role_id")
+  fullName          String              @map("full_name") @db.VarChar(150)
+  phone             String?             @db.VarChar(20)
+  isActive          Boolean             @default(true) @map("is_active")
+  lastLoginAt       DateTime?           @map("last_login_at")
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+  blacklistsCreated BlacklistedPerson[] @relation("BlacklistCreatedBy")
+  blacklistsRemoved BlacklistedPerson[] @relation("BlacklistRemovedBy")
+  employee          Employee?
+  logs              Log[]
+  role              Role                @relation(fields: [roleId], references: [roleId])
+  visitor           Visitor?
+  approvedVisits    Visit[]             @relation("ApprovedBy")
+  checkedInVisits   Visit[]             @relation("CheckedInBy")
+  checkedOutVisits  Visit[]             @relation("CheckedOutBy")
+
+  @@index([roleId], map: "idx_users_role")
+  @@map("users")
+}
+
+model Department {
+  departmentId   Int        @id @default(autoincrement()) @map("department_id")
+  departmentName String     @unique @map("department_name") @db.VarChar(100)
+  description    String?    @db.VarChar(255)
+  location       String?    @db.VarChar(150)
+  isActive       Boolean    @default(true) @map("is_active")
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+  employees      Employee[]
+  visits         Visit[]
+
+  @@map("departments")
+}
+
+model Employee {
+  employeeId   Int        @id @default(autoincrement()) @map("employee_id")
+  employeeCode String     @unique @map("employee_code") @db.VarChar(30)
+  firstName    String     @map("first_name") @db.VarChar(100)
+  lastName     String     @map("last_name") @db.VarChar(100)
+  email        String     @unique @db.VarChar(150)
+  phone        String?    @db.VarChar(20)
+  designation  String?    @db.VarChar(100)
+  departmentId Int        @map("department_id")
+  userId       Int?       @unique @map("user_id")
+  isActive     Boolean    @default(true) @map("is_active")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  profileImage String?    @map("profile_image") @db.VarChar(255)
+  department   Department @relation(fields: [departmentId], references: [departmentId])
+  user         User?      @relation(fields: [userId], references: [userId])
+  hostedVisits Visit[]    @relation("HostEmployee")
+
+  @@index([departmentId], map: "idx_employees_department")
+  @@map("employees")
+}
+
+model Visitor {
+  visitorId        Int                 @id @default(autoincrement()) @map("visitor_id")
+  firstName        String              @map("first_name") @db.VarChar(100)
+  lastName         String              @map("last_name") @db.VarChar(100)
+  email            String?             @db.VarChar(150)
+  phone            String              @db.VarChar(20)
+  companyName      String?             @map("company_name") @db.VarChar(150)
+  idProofType      IdProofType         @map("id_proof_type")
+  idProofNumber    String              @map("id_proof_number") @db.VarChar(50)
+  photoUrl         String?             @map("photo_url") @db.VarChar(255)
+  address          String?             @db.VarChar(255)
+  isBlacklisted    Boolean             @default(false) @map("is_blacklisted")
+  createdAt        DateTime            @default(now()) @map("created_at")
+  updatedAt        DateTime            @updatedAt @map("updated_at")
+  userId           Int?                @unique @map("user_id")
+  blacklistEntries BlacklistedPerson[]
+  user             User?               @relation(fields: [userId], references: [userId])
+  visits           Visit[]
+
+  @@unique([idProofType, idProofNumber], name: "uq_visitor_id_proof")
+  @@index([phone], map: "idx_visitors_phone")
+  @@index([lastName, firstName], map: "idx_visitors_name")
+  @@map("visitors")
+}
+
+model Visit {
+  visitId          Int         @id @default(autoincrement()) @map("visit_id")
+  visitorId        Int         @map("visitor_id")
+  hostEmployeeId   Int         @map("host_employee_id")
+  departmentId     Int         @map("department_id")
+  purpose          String      @db.VarChar(255)
+  badgeNumber      String?     @map("badge_number") @db.VarChar(30)
+  checkInTime      DateTime?   @map("check_in_time")
+  checkOutTime     DateTime?   @map("check_out_time")
+  visitStatus      VisitStatus @default(Pre_Registered) @map("visit_status")
+  approvedBy       Int?        @map("approved_by")
+  checkedInBy      Int?        @map("checked_in_by")
+  checkedOutBy     Int?        @map("checked_out_by")
+  remarks          String?     @db.VarChar(255)
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
+  approvedAt       DateTime?   @map("approved_at")
+  arrivalTime      DateTime?   @map("arrival_time")
+  departureTime    DateTime?   @map("departure_time")
+  notes            String?     @db.VarChar(255)
+  rejectionReason  String?     @map("rejection_reason") @db.VarChar(255)
+  visitDate        DateTime?   @map("visit_date")
+  gatePass         GatePass?
+  approvedByUser   User?       @relation("ApprovedBy", fields: [approvedBy], references: [userId])
+  checkedInByUser  User?       @relation("CheckedInBy", fields: [checkedInBy], references: [userId])
+  checkedOutByUser User?       @relation("CheckedOutBy", fields: [checkedOutBy], references: [userId])
+  department       Department  @relation(fields: [departmentId], references: [departmentId])
+  hostEmployee     Employee    @relation("HostEmployee", fields: [hostEmployeeId], references: [employeeId])
+  visitor          Visitor     @relation(fields: [visitorId], references: [visitorId])
+
+  @@index([visitorId], map: "idx_visits_visitor")
+  @@index([hostEmployeeId], map: "idx_visits_host")
+  @@index([departmentId], map: "idx_visits_department")
+  @@index([visitStatus], map: "idx_visits_status")
+  @@index([checkInTime], map: "idx_visits_checkin")
+  @@index([checkOutTime], map: "idx_visits_checkout")
+  @@index([visitStatus, checkInTime], map: "idx_visits_status_checkin")
+  @@index([approvedBy], map: "visits_approved_by_fkey")
+  @@index([checkedInBy], map: "visits_checked_in_by_fkey")
+  @@index([checkedOutBy], map: "visits_checked_out_by_fkey")
+  @@map("visits")
+}
+
+model Log {
+  logId       Int      @id @default(autoincrement()) @map("log_id")
+  userId      Int?     @map("user_id")
+  action      String   @db.VarChar(100)
+  entityType  String?  @map("entity_type") @db.VarChar(50)
+  entityId    Int?     @map("entity_id")
+  description String?  @db.VarChar(500)
+  ipAddress   String?  @map("ip_address") @db.VarChar(45)
+  userAgent   String?  @map("user_agent") @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+  user        User?    @relation(fields: [userId], references: [userId])
+
+  @@index([userId], map: "idx_logs_user")
+  @@index([createdAt], map: "idx_logs_created_at")
+  @@index([entityType, entityId], map: "idx_logs_entity")
+  @@map("logs")
+}
+
+model BlacklistedPerson {
+  id              Int             @id @default(autoincrement())
+  visitorId       Int?            @map("visitor_id")
+  fullName        String          @map("full_name") @db.VarChar(200)
+  idProofType     IdProofType?    @map("id_proof_type")
+  idProofNumber   String?         @map("id_proof_number") @db.VarChar(50)
+  phone           String?         @db.VarChar(20)
+  blacklistReason String          @map("blacklist_reason") @db.VarChar(500)
+  status          BlacklistStatus @default(ACTIVE)
+  createdByUserId Int             @map("created_by")
+  removedByUserId Int?            @map("removed_by")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  createdByUser   User            @relation("BlacklistCreatedBy", fields: [createdByUserId], references: [userId])
+  removedByUser   User?           @relation("BlacklistRemovedBy", fields: [removedByUserId], references: [userId])
+  visitor         Visitor?        @relation(fields: [visitorId], references: [visitorId])
+
+  @@index([idProofNumber], map: "idx_blacklist_id_proof_number")
+  @@index([phone], map: "idx_blacklist_phone")
+  @@index([status], map: "idx_blacklist_status")
+  @@index([createdByUserId], map: "blacklisted_persons_created_by_fkey")
+  @@index([removedByUserId], map: "blacklisted_persons_removed_by_fkey")
+  @@index([visitorId], map: "blacklisted_persons_visitor_id_fkey")
+  @@map("blacklisted_persons")
+}
+
+model GatePass {
+  gatePassId Int            @id @default(autoincrement()) @map("gate_pass_id")
+  visitId    Int            @unique @map("visit_id")
+  passNumber String         @unique @map("pass_number") @db.VarChar(50)
+  qrToken    String         @unique @map("qr_token") @db.VarChar(100)
+  issuedAt   DateTime       @default(now()) @map("issued_at")
+  validFrom  DateTime       @map("valid_from")
+  validUntil DateTime       @map("valid_until")
+  status     GatePassStatus @default(ACTIVE)
+  visit      Visit          @relation(fields: [visitId], references: [visitId], onDelete: Cascade)
+
+  @@map("gate_passes")
+}
+
+enum IdProofType {
+  NATIONAL_ID
+  PASSPORT
+  DRIVER_LICENSE
+  EMPLOYEE_ID
+  OTHER
+
+  @@map("id_proof_type")
+}
+
+enum VisitStatus {
+  Pre_Registered @map("Pre-Registered")
+  Checked_In     @map("Checked In")
+  Checked_Out    @map("Checked Out")
+  Cancelled      @map("Cancelled")
+  Denied         @map("Denied")
+  Pending        @map("Pending")
+  Approved       @map("Approved")
+  Rejected       @map("Rejected")
+  Expired        @map("Expired")
+
+  @@map("visit_status")
+}
+
+enum BlacklistStatus {
+  ACTIVE
+  REMOVED
+
+  @@map("blacklist_status")
+}
+
+enum GatePassStatus {
+  ACTIVE
+  USED
+  EXPIRED
+  CANCELLED
+
+  @@map("gate_pass_status")
+}
