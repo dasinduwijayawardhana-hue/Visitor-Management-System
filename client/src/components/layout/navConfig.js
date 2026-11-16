@@ -16,6 +16,7 @@ export const NAV_ITEMS = {
   ],
   [ROLES.SECURITY]: [
     { to: '/security/dashboard', label: 'Dashboard', icon: '◧' },
+    { to: '/security/verify-pass', label: 'Verify Gate Pass', icon: '◈' },
     { to: '/security/register-visitor', label: 'Register Visitor', icon: '✎' },
     { to: '/security/check-in', label: 'Check In', icon: '✓' },
     { to: '/security/check-out', label: 'Check Out', icon: '✗' },
